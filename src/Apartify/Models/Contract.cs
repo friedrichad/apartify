@@ -15,8 +15,6 @@ public partial class Contract
 
     public DateOnly? EndDate { get; set; }
 
-    public string? Type { get; set; }
-
     public virtual Apartment? Apartment { get; set; }
 
     public virtual Resident? Resident { get; set; }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-
 using Apartify.DAL;
 using Apartify.Models;
 
@@ -11,7 +9,8 @@ namespace Apartify.BLL
     {
         IEnumerable<Contract> GetList();
         Contract? GetDetail(int id);
-        string CreateContract(Contract contract); 
+        bool Create(Contract contract);
+        bool Edit(Contract contract);
         bool Remove(int id);
     }
 
@@ -24,26 +23,32 @@ namespace Apartify.BLL
             _contractDal = contractDal;
         }
 
-        public IEnumerable<Contract> GetList() => _contractDal.GetAllContracts();
-
-        public Contract? GetDetail(int id) => _contractDal.GetContractById(id);
-
-        public string CreateContract(Contract contract)
+        public IEnumerable<Contract> GetList()
         {
+            return _contractDal.GetAllContracts();
+        }
 
-            if (contract.StartDate >= contract.EndDate)
-            {
-                return "Ngày bắt đầu phải trước ngày kết thúc!";
-            }
+        public Contract? GetDetail(int id)
+        {
+            return _contractDal.GetContractById(id);
+        }
 
-       
+        public bool Create(Contract contract)
+        {
             if (contract.ApartmentId == null || contract.ResidentId == null)
-            {
-                return "Căn hộ và Cư dân không được để trống!";
-            }
+                return false;
 
             _contractDal.Add(contract);
-            return "Success";
+            return _contractDal.Save();
+        }
+
+        public bool Edit(Contract contract)
+        {
+            var existing = _contractDal.GetContractById(contract.ContractId);
+            if (existing == null) return false;
+
+            _contractDal.Update(contract);
+            return _contractDal.Save();
         }
 
         public bool Remove(int id)
@@ -52,7 +57,7 @@ namespace Apartify.BLL
             if (contract == null) return false;
 
             _contractDal.Delete(id);
-            return true;
+            return _contractDal.Save();
         }
     }
 }

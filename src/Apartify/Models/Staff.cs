@@ -11,15 +11,13 @@ public partial class Staff
 
     public string? Phone { get; set; }
 
-    public string? Position { get; set; }
-
     public int? BuildingId { get; set; }
 
     public int? UserId { get; set; }
 
     public virtual Building? Building { get; set; }
 
-    public virtual ICollection<Maintenance> Maintenances { get; set; } = new List<Maintenance>();
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 
     public virtual UserAccount? User { get; set; }
 }

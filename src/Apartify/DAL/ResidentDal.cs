@@ -9,8 +9,8 @@ namespace Apartify.DAL
 {
     public interface IResidentDal
     {
-        IEnumerable<Resident> GetAll();
-        Resident? GetById(int id);
+        IEnumerable<Resident> GetAllResidents();
+        Resident? GetResidentById(int id);
         void Add(Resident resident);
         void Update(Resident resident);
         void Delete(int id);
@@ -26,42 +26,38 @@ namespace Apartify.DAL
             _context = context;
         }
 
-        public IEnumerable<Resident> GetAll()
+        public IEnumerable<Resident> GetAllResidents()
         {
-
-            return _context.Residents.Include(r => r.User).ToList();
+            return _context.Residents.ToList();
         }
 
-        public Resident? GetById(int id)
+        public Resident? GetResidentById(int id)
         {
-            return _context.Residents
-                .Include(r => r.User)
-                .Include(r => r.Contracts) 
-                .FirstOrDefault(r => r.ResidentId == id);
+            return _context.Residents.FirstOrDefault(r => r.ResidentId == id);
         }
 
         public void Add(Resident resident)
         {
             _context.Residents.Add(resident);
-            Save();
         }
 
         public void Update(Resident resident)
         {
             _context.Residents.Update(resident);
-            Save();
         }
 
         public void Delete(int id)
         {
-            var res = _context.Residents.Find(id);
-            if (res != null)
+            var resident = _context.Residents.Find(id);
+            if (resident != null)
             {
-                _context.Residents.Remove(res);
-                Save();
+                _context.Residents.Remove(resident);
             }
         }
 
-        public bool Save() => _context.SaveChanges() > 0;
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }

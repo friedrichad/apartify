@@ -7,56 +7,49 @@ using Apartify.Models;
 
 namespace Apartify.BLL
 {
-    public interface IResidentBll
+    public interface IResidentService
     {
-        IEnumerable<Resident> GetList();
-        Resident? GetDetail(int id);
-        bool Create(Resident resident);
-        void Edit(Resident resident);
-        string Remove(int id);
+        IEnumerable<Resident> GetAllResidents();
+        Resident? GetResidentById(int id);
+        bool AddResident(Resident resident);
+        bool UpdateResident(Resident resident);
+        bool DeleteResident(int id);
     }
-
-    public class ResidentBll : IResidentBll
+    public class ResidentService : IResidentService
     {
         private readonly IResidentDal _residentDal;
 
-        public ResidentBll(IResidentDal residentDal)
+        public ResidentService(IResidentDal residentDal)
         {
             _residentDal = residentDal;
         }
 
-        public IEnumerable<Resident> GetList() => _residentDal.GetAll();
-
-        public Resident? GetDetail(int id) => _residentDal.GetById(id);
-
-        public bool Create(Resident resident)
+        public IEnumerable<Resident> GetAllResidents()
         {
-
-            if (string.IsNullOrEmpty(resident.FullName) || string.IsNullOrEmpty(resident.Phone))
-                return false;
-
-            _residentDal.Add(resident);
-            return true;
+            return _residentDal.GetAllResidents();
         }
 
-        public void Edit(Resident resident)
+        public Resident? GetResidentById(int id)
+        {
+            return _residentDal.GetResidentById(id);
+        }
+
+        public bool AddResident(Resident resident)
+        {
+            _residentDal.Add(resident);
+            return _residentDal.Save();
+        }
+
+        public bool UpdateResident(Resident resident)
         {
             _residentDal.Update(resident);
+            return _residentDal.Save();
         }
 
-        public string Remove(int id)
+        public bool DeleteResident(int id)
         {
-            var res = _residentDal.GetById(id);
-            if (res == null) return "Không tìm thấy cư dân!";
-
-
-            if (res.Contracts.Any())
-            {
-                return "Không thể xóa cư dân này vì họ đang có dữ liệu hợp đồng!";
-            }
-
             _residentDal.Delete(id);
-            return "Success";
+            return _residentDal.Save();
         }
     }
 }

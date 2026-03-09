@@ -16,4 +16,6 @@ public partial class ServiceFee
     public bool? Paid { get; set; }
 
     public virtual Apartment? Apartment { get; set; }
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

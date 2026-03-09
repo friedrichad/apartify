@@ -19,7 +19,7 @@ public partial class Apartment
 
     public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
 
-    public virtual ICollection<Maintenance> Maintenances { get; set; } = new List<Maintenance>();
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 
     public virtual ICollection<ServiceFee> ServiceFees { get; set; } = new List<ServiceFee>();
 }

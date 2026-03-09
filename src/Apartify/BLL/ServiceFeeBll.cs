@@ -7,48 +7,49 @@ using Apartify.Models;
 
 namespace Apartify.BLL
 {
-    public interface IServiceFeeBll
+    public interface IServiceFeeService
     {
-        IEnumerable<ServiceFee> GetList();
-        ServiceFee? GetDetail(int id);
-        void CreateFee(ServiceFee fee);
-        void MarkAsPaid(int id);
-        IEnumerable<ServiceFee> GetUnpaidFees();
+        IEnumerable<ServiceFee> GetAllFees();
+        ServiceFee? GetFeeById(int id);
+        bool AddFee(ServiceFee fee);
+        bool UpdateFee(ServiceFee fee);
+        bool DeleteFee(int id);
     }
-
-    public class ServiceFeeBll : IServiceFeeBll
+    public class ServiceFeeService : IServiceFeeService
     {
         private readonly IServiceFeeDal _feeDal;
 
-        public ServiceFeeBll(IServiceFeeDal feeDal)
+        public ServiceFeeService(IServiceFeeDal feeDal)
         {
             _feeDal = feeDal;
         }
 
-        public IEnumerable<ServiceFee> GetList() => _feeDal.GetAll();
-
-        public ServiceFee? GetDetail(int id) => _feeDal.GetById(id);
-
-        public void CreateFee(ServiceFee fee)
+        public IEnumerable<ServiceFee> GetAllFees()
         {
- 
-            fee.Paid = false;
+            return _feeDal.GetAll();
+        }
+
+        public ServiceFee? GetFeeById(int id)
+        {
+            return _feeDal.GetById(id);
+        }
+
+        public bool AddFee(ServiceFee fee)
+        {
             _feeDal.Add(fee);
+            return _feeDal.Save();
         }
 
-        public void MarkAsPaid(int id)
+        public bool UpdateFee(ServiceFee fee)
         {
-            var fee = _feeDal.GetById(id);
-            if (fee != null)
-            {
-                fee.Paid = true;
-                _feeDal.Update(fee);
-            }
+            _feeDal.Update(fee);
+            return _feeDal.Save();
         }
 
-        public IEnumerable<ServiceFee> GetUnpaidFees()
+        public bool DeleteFee(int id)
         {
-            return _feeDal.GetAll().Where(f => f.Paid == false);
+            _feeDal.Delete(id);
+            return _feeDal.Save();
         }
     }
 }

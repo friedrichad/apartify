@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 using Apartify.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,11 +7,11 @@ namespace Apartify.DAL
 {
     public interface IBuildingDal
     {
-        IEnumerable<Building> GetAllBuildings();
-        Building? GetBuildingById(int id);
-        void AddBuilding(Building building);
-        void UpdateBuilding(Building building);
-        void DeleteBuilding(int id);
+        IEnumerable<Building> GetAll();
+        Building? GetById(int id);
+        void Add(Building building);
+        void Update(Building building);
+        void Delete(int id);
         bool Save();
     }
 
@@ -26,40 +24,44 @@ namespace Apartify.DAL
             _context = context;
         }
 
-        public IEnumerable<Building> GetAllBuildings()
-        {
-            return _context.Buildings.ToList();
-        }
-
-        public Building? GetBuildingById(int id)
+        public IEnumerable<Building> GetAll()
         {
             return _context.Buildings
-                .Include(b => b.Apartments) 
+                .Include(b => b.Apartments)
+                .Include(b => b.Staff)
+                .ToList();
+        }
+
+        public Building? GetById(int id)
+        {
+            return _context.Buildings
+                .Include(b => b.Apartments)
+                .Include(b => b.Staff)
                 .FirstOrDefault(b => b.BuildingId == id);
         }
 
-        public void AddBuilding(Building building)
+        public void Add(Building building)
         {
             _context.Buildings.Add(building);
-            Save();
         }
 
-        public void UpdateBuilding(Building building)
+        public void Update(Building building)
         {
             _context.Buildings.Update(building);
-            Save();
         }
 
-        public void DeleteBuilding(int id)
+        public void Delete(int id)
         {
             var building = _context.Buildings.Find(id);
             if (building != null)
             {
                 _context.Buildings.Remove(building);
-                Save();
             }
         }
 
-        public bool Save() => _context.SaveChanges() > 0;
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }

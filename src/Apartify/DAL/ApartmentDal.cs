@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using Apartify.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,27 +27,28 @@ namespace Apartify.DAL
 
         public IEnumerable<Apartment> GetAllApartments()
         {
-
-            return _context.Apartments.Include(a => a.Building).ToList();
+            return _context.Apartments
+                .Include(a => a.Building)
+                .Include(a => a.Contracts)
+                .ToList();
         }
 
         public Apartment? GetApartmentById(int id)
         {
             return _context.Apartments
                 .Include(a => a.Building)
+                .Include(a => a.Contracts)
                 .FirstOrDefault(a => a.ApartmentId == id);
         }
 
         public void Add(Apartment apartment)
         {
             _context.Apartments.Add(apartment);
-            Save();
         }
 
         public void Update(Apartment apartment)
         {
             _context.Apartments.Update(apartment);
-            Save();
         }
 
         public void Delete(int id)
@@ -56,10 +57,12 @@ namespace Apartify.DAL
             if (apt != null)
             {
                 _context.Apartments.Remove(apt);
-                Save();
             }
         }
 
-        public bool Save() => _context.SaveChanges() > 0;
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }

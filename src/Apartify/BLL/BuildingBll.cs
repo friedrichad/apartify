@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 using Apartify.DAL;
 using Apartify.Models;
 
@@ -12,7 +10,7 @@ namespace Apartify.BLL
         IEnumerable<Building> GetList();
         Building? GetDetail(int id);
         bool Create(Building building);
-        void Edit(Building building);
+        bool Edit(Building building);
         bool Remove(int id);
     }
 
@@ -25,36 +23,44 @@ namespace Apartify.BLL
             _buildingDal = buildingDal;
         }
 
-        public IEnumerable<Building> GetList() => _buildingDal.GetAllBuildings();
+        public IEnumerable<Building> GetList()
+        {
+            return _buildingDal.GetAll();
+        }
 
-        public Building? GetDetail(int id) => _buildingDal.GetBuildingById(id);
+        public Building? GetDetail(int id)
+        {
+            return _buildingDal.GetById(id);
+        }
 
         public bool Create(Building building)
         {
+            if (string.IsNullOrWhiteSpace(building.Name))
+                return false;
 
-            if (string.IsNullOrWhiteSpace(building.Name)) return false;
-
-            _buildingDal.AddBuilding(building);
-            return true;
+            _buildingDal.Add(building);
+            return _buildingDal.Save();
         }
 
-        public void Edit(Building building)
+        public bool Edit(Building building)
         {
-            _buildingDal.UpdateBuilding(building);
+            var existing = _buildingDal.GetById(building.BuildingId);
+            if (existing == null) return false;
+
+            _buildingDal.Update(building);
+            return _buildingDal.Save();
         }
 
         public bool Remove(int id)
         {
-            var building = _buildingDal.GetBuildingById(id);
+            var building = _buildingDal.GetById(id);
             if (building == null) return false;
 
-            if (building.Apartments.Any() || building.Staff.Any())
-            {
+            if (building.Apartments.Any())
                 return false;
-            }
 
-            _buildingDal.DeleteBuilding(id);
-            return true;
+            _buildingDal.Delete(id);
+            return _buildingDal.Save();
         }
     }
 }

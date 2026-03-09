@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 using Apartify.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,13 +43,11 @@ namespace Apartify.DAL
         public void Add(Staff staff)
         {
             _context.Staff.Add(staff);
-            Save();
         }
 
         public void Update(Staff staff)
         {
             _context.Staff.Update(staff);
-            Save();
         }
 
         public void Delete(int id)
@@ -60,10 +56,12 @@ namespace Apartify.DAL
             if (staff != null)
             {
                 _context.Staff.Remove(staff);
-                Save();
             }
         }
 
-        public bool Save() => _context.SaveChanges() > 0;
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }

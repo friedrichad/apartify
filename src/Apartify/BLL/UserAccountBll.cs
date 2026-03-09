@@ -1,82 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Apartify.DAL;
+﻿using Apartify.DAL;
 using Apartify.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Apartify.BLL
 {
-
     public interface IUserAccountBll
     {
-        IEnumerable<UserAccount> GetAll();
-        UserAccount? GetById(int id);
+        IEnumerable<UserAccount> GetAllUsers();
+        UserAccount? GetUserById(int id);
         UserAccount? Login(string username, string password);
-        bool Register(UserAccount user);
-        void Update(UserAccount user);
-        bool Delete(int id);
+        void CreateUser(UserAccount user);
+        void UpdateUser(UserAccount user);
+        void DeleteUser(int id);
+        void ChangeStatus(int userId, int status);
     }
-
-
-    public class UserAccountBll : IUserAccountBll
+    public class UserAccountBLL: IUserAccountBll
     {
-        private readonly IUserAccountDal _userDal;
+        private UserAccountDAL dal = new UserAccountDAL();
 
-
-        public UserAccountBll(IUserAccountDal userDal)
+        // Lấy tất cả user
+        public IEnumerable<UserAccount> GetAllUsers()
         {
-            _userDal = userDal;
+            return dal.GetAll();
         }
 
-        public IEnumerable<UserAccount> GetAll()
+        // Lấy user theo id
+        public UserAccount GetUserById(int id)
         {
-            return _userDal.GetAllUserAccounts();
+            return dal.GetById(id);
         }
 
-        public UserAccount? GetById(int id)
-        {
-            return _userDal.GetUserAccountById(id);
-        }
-
-        public UserAccount? Login(string username, string password)
+        // Login
+        public UserAccount Login(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                return null;
+                throw new Exception("Username hoặc Password không được để trống");
             }
 
-            return _userDal.Login(username, password);
+            return dal.Login(username, password);
         }
 
-
-        public bool Register(UserAccount user)
+        // Tạo user
+        public void CreateUser(UserAccount user)
         {
-    
-            var allUsers = _userDal.GetAllUserAccounts();
-            bool isExisted = allUsers.Any(u => u.Username == user.Username);
+            if (string.IsNullOrEmpty(user.Username))
+                throw new Exception("Username không được để trống");
 
-            if (isExisted)
-            {
-                return false; 
-            }
+            if (string.IsNullOrEmpty(user.Password))
+                throw new Exception("Password không được để trống");
 
-            _userDal.AddUserAccount(user);
-            return true;
+            dal.Add(user);
         }
 
-        public void Update(UserAccount user)
+        // Update user
+        public void UpdateUser(UserAccount user)
         {
-            _userDal.UpdateUserAccount(user);
+            if (user.UserId <= 0)
+                throw new Exception("User không hợp lệ");
+
+            dal.Update(user);
         }
 
-        public bool Delete(int id)
+        // Xóa user
+        public void DeleteUser(int id)
         {
-            var user = _userDal.GetUserAccountById(id);
-            if (user == null) return false;
+            if (id <= 0)
+                throw new Exception("Id không hợp lệ");
 
-            _userDal.DeleteUserAccount(id);
-            return true;
+            dal.Delete(id);
+        }
+
+        // Khóa / mở khóa tài khoản
+        public void ChangeStatus(int userId, int status)
+        {
+            var user = dal.GetById(userId);
+
+            if (user == null)
+                throw new Exception("User không tồn tại");
+
+            user.Status = status;
+
+            dal.Update(user);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-
+using System.Linq;
 using Apartify.DAL;
 using Apartify.Models;
 
@@ -12,7 +11,7 @@ namespace Apartify.BLL
         IEnumerable<Apartment> GetList();
         Apartment? GetDetail(int id);
         bool Create(Apartment apartment);
-        void Edit(Apartment apartment);
+        bool Edit(Apartment apartment);
         bool Remove(int id);
     }
 
@@ -25,21 +24,32 @@ namespace Apartify.BLL
             _apartmentDal = apartmentDal;
         }
 
-        public IEnumerable<Apartment> GetList() => _apartmentDal.GetAllApartments();
+        public IEnumerable<Apartment> GetList()
+        {
+            return _apartmentDal.GetAllApartments();
+        }
 
-        public Apartment? GetDetail(int id) => _apartmentDal.GetApartmentById(id);
+        public Apartment? GetDetail(int id)
+        {
+            return _apartmentDal.GetApartmentById(id);
+        }
 
         public bool Create(Apartment apartment)
         {
-            if (string.IsNullOrEmpty(apartment.Number)) return false;
+            if (string.IsNullOrWhiteSpace(apartment.Number))
+                return false;
 
             _apartmentDal.Add(apartment);
-            return true;
+            return _apartmentDal.Save();
         }
 
-        public void Edit(Apartment apartment)
+        public bool Edit(Apartment apartment)
         {
+            var existing = _apartmentDal.GetApartmentById(apartment.ApartmentId);
+            if (existing == null) return false;
+
             _apartmentDal.Update(apartment);
+            return _apartmentDal.Save();
         }
 
         public bool Remove(int id)
@@ -48,12 +58,10 @@ namespace Apartify.BLL
             if (apt == null) return false;
 
             if (apt.Contracts.Any())
-            {
                 return false;
-            }
 
             _apartmentDal.Delete(id);
-            return true;
+            return _apartmentDal.Save();
         }
     }
 }

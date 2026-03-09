@@ -1,60 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using Apartify.DAL;
 using Apartify.Models;
 
 namespace Apartify.BLL
 {
-    public interface IStaffBll
+    public interface IStaffService
     {
-        IEnumerable<Staff> GetList();
-        Staff? GetDetail(int id);
-        bool Create(Staff staff);
-        void Edit(Staff staff);
-        string Remove(int id);
+        IEnumerable<Staff> GetAllStaff();
+        Staff? GetStaffById(int id);
+        bool AddStaff(Staff staff);
+        bool UpdateStaff(Staff staff);
+        bool DeleteStaff(int id);
     }
 
-    public class StaffBll : IStaffBll
+    public class StaffService : IStaffService
     {
         private readonly IStaffDal _staffDal;
 
-        public StaffBll(IStaffDal staffDal)
+        public StaffService(IStaffDal staffDal)
         {
             _staffDal = staffDal;
         }
 
-        public IEnumerable<Staff> GetList() => _staffDal.GetAll();
-
-        public Staff? GetDetail(int id) => _staffDal.GetById(id);
-
-        public bool Create(Staff staff)
+        public IEnumerable<Staff> GetAllStaff()
         {
-            if (string.IsNullOrEmpty(staff.FullName)) return false;
-
-            _staffDal.Add(staff);
-            return true;
+            return _staffDal.GetAll();
         }
 
-        public void Edit(Staff staff)
+        public Staff? GetStaffById(int id)
+        {
+            return _staffDal.GetById(id);
+        }
+
+        public bool AddStaff(Staff staff)
+        {
+            _staffDal.Add(staff);
+            return _staffDal.Save();
+        }
+
+        public bool UpdateStaff(Staff staff)
         {
             _staffDal.Update(staff);
+            return _staffDal.Save();
         }
 
-        public string Remove(int id)
+        public bool DeleteStaff(int id)
         {
-            var staff = _staffDal.GetById(id);
-            if (staff == null) return "Không tìm thấy nhân viên!";
-
-   
-            if (staff.Maintenances.Any())
-            {
-                return "Không thể xóa nhân viên này vì họ đang có lịch sử bảo trì!";
-            }
-
             _staffDal.Delete(id);
-            return "Success";
+            return _staffDal.Save();
         }
     }
 }

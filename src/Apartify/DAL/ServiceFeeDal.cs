@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 using Apartify.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,10 +26,9 @@ namespace Apartify.DAL
 
         public IEnumerable<ServiceFee> GetAll()
         {
-
             return _context.ServiceFees
                 .Include(f => f.Apartment)
-                    .ThenInclude(a => a.Building)
+                .ThenInclude(a => a.Building)
                 .ToList();
         }
 
@@ -45,13 +42,11 @@ namespace Apartify.DAL
         public void Add(ServiceFee fee)
         {
             _context.ServiceFees.Add(fee);
-            Save();
         }
 
         public void Update(ServiceFee fee)
         {
             _context.ServiceFees.Update(fee);
-            Save();
         }
 
         public void Delete(int id)
@@ -60,10 +55,12 @@ namespace Apartify.DAL
             if (fee != null)
             {
                 _context.ServiceFees.Remove(fee);
-                Save();
             }
         }
 
-        public bool Save() => _context.SaveChanges() > 0;
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }
