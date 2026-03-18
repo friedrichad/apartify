@@ -1,4 +1,4 @@
-﻿using Apartify.BLL;
+using Apartify.BLL;
 using Apartify.Models;
 using System.Text;
 using System.Windows;
@@ -31,7 +31,7 @@ namespace Apartify.Views
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                lblError.Text = "Vui lòng nhập username và password";
+                lblError.Text = "Please, Enter Username and Password";
                 return;
             }
 
@@ -39,7 +39,7 @@ namespace Apartify.Views
 
             if (user != null)
             {
-                MessageBox.Show("Đăng nhập thành công");
+                MessageBox.Show("Login succeed!");
 
                 // mở cửa sổ chính
  
@@ -48,8 +48,14 @@ namespace Apartify.Views
             }
             else
             {
-                lblError.Text = "Sai tài khoản hoặc mật khẩu";
+                lblError.Text = "Wrong username or password";
             }
         }
+        private void Register_Click(object sender, MouseButtonEventArgs e)
+        {
+            RegisterWindow registerWindow = new RegisterWindow();
+            registerWindow.ShowDialog();
+        }
+
     }
 }

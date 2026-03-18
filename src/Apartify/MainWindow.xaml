@@ -17,7 +17,10 @@
                     Background="#3498DB" Foreground="White" FontWeight="Bold"
                     Click="btnLogin_Click"/>
             <TextBlock x:Name="lblError" Foreground="Red" Margin="0,10,0,0" TextAlignment="Center"/>
-
+            <TextBlock Text="No account yet? Register" 
+               Foreground="Blue" TextDecorations="Underline" 
+               Cursor="Hand" TextAlignment="Center"
+               MouseLeftButtonUp="Register_Click"/>
         </StackPanel>
 
     </Grid>
