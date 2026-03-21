@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Apartify.BLL;
+using Apartify.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +20,11 @@ namespace Apartify.Views.manager
     /// </summary>
     public partial class BuildingManagementWindow : Window
     {
+        private readonly IBuildingBll _buildingBll;
+
+        public ObservableCollection<Building> Buildings { get; set; }
+        public Building SelectedBuilding { get; set; }
+
         public BuildingManagementWindow()
         {
             InitializeComponent();

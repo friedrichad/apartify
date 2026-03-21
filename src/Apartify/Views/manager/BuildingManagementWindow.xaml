@@ -6,7 +6,40 @@
         xmlns:local="clr-namespace:Apartify.Views.manager"
         mc:Ignorable="d"
         Title="BuildingManagementWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" BorderBrush="#CCC" BorderThickness="0,0,1,0" Padding="10">
+            <StackPanel>
+                <TextBlock Text="BUILDING MANAGEMENT" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"></TextBlock>
+                <Label Content="Name:" Margin="0,0,0,10"></Label>
+                <TextBox Text="{Binding SelectedBuilding.Name, UpdateSourceTrigger=PropertyChanged}" Padding="0,5,0,5"></TextBox>
+                <Label Content="Address:" Margin="0,0,0,10"></Label>
+                <TextBox Text="{Binding SelectedBuilding.Address, UpdateSourceTrigger=PropertyChanged}" Padding="0,5,0,5"></TextBox>
+                <UniformGrid Columns="2" Margin="0,10,0,0">
+                    <Button Content="Add" Command="{Binding AddCommand}" Margin="5" Height="30"/>
+                    <Button Content="Save Change" Command="{Binding EditCommand}" Margin="5" Height="30" Background="LightBlue"/>
+                    <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="5" Height="30" Background="#e74c3c" Foreground="White"/>
+                    <Button Content="Close" Command="{Binding CloseCommand}" Margin="5" Height="30"/>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Column="1" Margin="10,0,0,0">
+            <DataGrid x:Name="dgBuilding" 
+              ItemsSource="{Binding Buildings}" 
+              SelectedItem="{Binding SelectedBuilding}"
+              AutoGenerateColumns="False" 
+              CanUserAddRows="False"
+              IsReadOnly="True"
+              SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Building Id" Binding="{Binding Id}" Width="80"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>
