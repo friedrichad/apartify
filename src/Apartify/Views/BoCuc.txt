@@ -1,4 +1,4 @@
 ﻿/// <summary>
 /// This class represents the view for the "Bo Cuc" feature.
-/// Viet theo bo cuc Views/Ten_Folder/ten_file + Window
+/// Viet theo bo cuc Views/Ten_Folder/file.cshtml
 /// </summary>
