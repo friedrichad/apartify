@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace Apartify.Views.manager
 {
     /// <summary>
-    /// Interaction logic for StatisticsReportWindow.xaml
+    /// Interaction logic for StatisticReportWindow.xaml
     /// </summary>
-    public partial class StatisticsReportWindow : Window
+    public partial class StatisticReportWindow : Window
     {
-        public StatisticsReportWindow()
+        public StatisticReportWindow()
         {
             InitializeComponent();
         }
