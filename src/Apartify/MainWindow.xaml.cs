@@ -1,5 +1,6 @@
 using Apartify.BLL;
 using Apartify.Models;
+using Apartify.DAL;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
