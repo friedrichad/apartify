@@ -8,7 +8,7 @@ using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
-    public interface IServiceFeeService
+    public interface IServiceFeeBll
     {
         IEnumerable<ServiceFee> GetAllFees();
         ServiceFee? GetFeeById(int id);
@@ -16,11 +16,11 @@ namespace Apartify.BLL
         bool UpdateFee(ServiceFee fee);
         bool DeleteFee(int id);
     }
-    public class ServiceFeeService : IServiceFeeService
+    public class ServiceFeeBll : IServiceFeeBll
     {
         private readonly IServiceFeeDal _feeDal;
 
-        public ServiceFeeService(IServiceFeeDal feeDal)
+        public ServiceFeeBll(IServiceFeeDal feeDal)
         {
             _feeDal = feeDal;
         }

@@ -8,7 +8,7 @@ using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
-    public interface IResidentService
+    public interface IResidentBll
     {
         IEnumerable<Resident> GetAllResidents();
         Resident? GetResidentById(int id);
@@ -16,11 +16,11 @@ namespace Apartify.BLL
         bool UpdateResident(Resident resident);
         bool DeleteResident(int id);
     }
-    public class ResidentService : IResidentService
+    public class ResidentBll : IResidentBll
     {
         private readonly IResidentDal _residentDal;
 
-        public ResidentService(IResidentDal residentDal)
+        public ResidentBll(IResidentDal residentDal)
         {
             _residentDal = residentDal;
         }

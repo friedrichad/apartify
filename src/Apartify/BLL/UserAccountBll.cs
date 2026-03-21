@@ -2,6 +2,7 @@ using Apartify.Models;
 using System;
 using System.Collections.Generic;
 using Apartify.BLL.Helpers;
+using Apartify.DAL;
 
 namespace Apartify.BLL
 {
@@ -10,25 +11,31 @@ namespace Apartify.BLL
         IEnumerable<UserAccount> GetAllUsers();
         UserAccount? GetUserById(int id);
         UserAccount? Login(string username, string password);
-        void CreateUser(UserAccount user);
-        void UpdateUser(UserAccount user);
-        void DeleteUser(int id);
-        void ChangeStatus(int userId, int status);
+        bool CreateUser(UserAccount user);
+        bool UpdateUser(UserAccount user);
+        bool DeleteUser(int id);
+        bool ChangeStatus(int userId, int status);
     }
-    public class UserAccountBLL: IUserAccountBll
+
+    public class UserAccountBll : IUserAccountBll
     {
-        private UserAccountDAL dal = new UserAccountDAL();
+        private readonly IUserAccountDal _userAccountDal;
+
+        public UserAccountBll(IUserAccountDal userAccountDal)
+        {
+            _userAccountDal = userAccountDal;
+        }
 
         // Lấy tất cả user
         public IEnumerable<UserAccount> GetAllUsers()
         {
-            return dal.GetAll();
+            return _userAccountDal.GetAll();
         }
 
         // Lấy user theo id
         public UserAccount? GetUserById(int id)
         {
-            return dal.GetById(id);
+            return _userAccountDal.GetById(id);
         }
 
         // Login
@@ -38,50 +45,55 @@ namespace Apartify.BLL
             {
                 throw new Exception("Username or Password cannot be empty");
             }
-            if (username.Length > 50 || password.Length > 100)
-            {
-                return null;
-            }
 
-            return dal.Login(username, password);
+            var user = _userAccountDal.GetByUsername(username);
+            if (user != null && user.Password == password) // Should ideally hash password
+            {
+                return user;
+            }
+            return null;
         }
 
         // Tạo user
-        public void CreateUser(UserAccount user)
+        public bool CreateUser(UserAccount user)
         {
             ValidateHelper.ValidateUserAccount(user);
 
-            if (dal.GetByUsername(user.Username) != null)
+            if (_userAccountDal.GetByUsername(user.Username) != null)
                 throw new Exception("Username already exists");
 
-            dal.Add(user);
+            _userAccountDal.Add(user);
+            return _userAccountDal.Save();
         }
 
         // Update user
-        public void UpdateUser(UserAccount user)
+        public bool UpdateUser(UserAccount user)
         {
             ValidateHelper.ValidateUserAccount(user);
 
-            dal.Update(user);
+            _userAccountDal.Update(user);
+            return _userAccountDal.Save();
         }
 
         // Xóa user
-        public void DeleteUser(int id)
+        public bool DeleteUser(int id)
         {
-            dal.Delete(id);
+            _userAccountDal.Delete(id);
+            return _userAccountDal.Save();
         }
 
         // Khóa / mở khóa tài khoản
-        public void ChangeStatus(int userId, int status)
+        public bool ChangeStatus(int userId, int status)
         {
-            var user = dal.GetById(userId);
+            var user = _userAccountDal.GetById(userId);
 
             if (user == null)
                 throw new Exception("User does not exist");
 
             user.Status = status;
 
-            dal.Update(user);
+            _userAccountDal.Update(user);
+            return _userAccountDal.Save();
         }
     }
 }

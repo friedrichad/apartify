@@ -5,7 +5,7 @@ using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
-    public interface ITransactionService
+    public interface ITransactionBll
     {
         IEnumerable<Transaction> GetAllTransactions();
         Transaction? GetTransactionById(int id);
@@ -14,11 +14,11 @@ namespace Apartify.BLL
         bool DeleteTransaction(int id);
     }
 
-    public class TransactionService : ITransactionService
+    public class TransactionBll : ITransactionBll
     {
         private readonly ITransactionDal _transactionDal;
 
-        public TransactionService(ITransactionDal transactionDal)
+        public TransactionBll(ITransactionDal transactionDal)
         {
             _transactionDal = transactionDal;
         }

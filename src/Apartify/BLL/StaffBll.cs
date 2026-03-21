@@ -5,7 +5,7 @@ using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
-    public interface IStaffService
+    public interface IStaffBll
     {
         IEnumerable<Staff> GetAllStaff();
         Staff? GetStaffById(int id);
@@ -14,11 +14,11 @@ namespace Apartify.BLL
         bool DeleteStaff(int id);
     }
 
-    public class StaffService : IStaffService
+    public class StaffBll : IStaffBll
     {
         private readonly IStaffDal _staffDal;
 
-        public StaffService(IStaffDal staffDal)
+        public StaffBll(IStaffDal staffDal)
         {
             _staffDal = staffDal;
         }

@@ -1,4 +1,4 @@
-﻿using Apartify.Models;
+using Apartify.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,23 +9,27 @@ namespace Apartify.DAL
     public interface IUserAccountDal
     {
         IEnumerable<UserAccount> GetAll();
-
         UserAccount? GetById(int id);
         UserAccount? GetByUsername(string username);
         void Add(UserAccount userAccount);
         void Update(UserAccount userAccount);
-        void Delete(UserAccount userAccount);
+        void Delete(int id);
         bool Save();
-        
     }
-    public class UserAccountDAL
+
+    public class UserAccountDal : IUserAccountDal
     {
-        private ApartifyContext context = new ApartifyContext();
+        private readonly ApartifyContext _context;
+
+        public UserAccountDal(ApartifyContext context)
+        {
+            _context = context;
+        }
 
         // Get all users
         public IEnumerable<UserAccount> GetAll()
         {
-            return context.UserAccounts
+            return _context.UserAccounts
                 .Include(u => u.Roles)
                 .Include(u => u.Resident)
                 .Include(u => u.Staff)
@@ -33,17 +37,17 @@ namespace Apartify.DAL
         }
 
         // Get user by id
-        public UserAccount GetById(int id)
+        public UserAccount? GetById(int id)
         {
-            return context.UserAccounts
+            return _context.UserAccounts
                 .Include(u => u.Roles)
                 .FirstOrDefault(u => u.UserId == id);
         }
 
         // Get user by username
-        public UserAccount GetByUsername(string username)
+        public UserAccount? GetByUsername(string username)
         {
-            return context.UserAccounts
+            return _context.UserAccounts
                 .Include(u => u.Roles)
                 .FirstOrDefault(u => u.Username == username);
         }
@@ -51,34 +55,28 @@ namespace Apartify.DAL
         // Insert
         public void Add(UserAccount user)
         {
-            context.UserAccounts.Add(user);
-            context.SaveChanges();
+            _context.UserAccounts.Add(user);
         }
 
         // Update
         public void Update(UserAccount user)
         {
-            context.UserAccounts.Update(user);
-            context.SaveChanges();
+            _context.UserAccounts.Update(user);
         }
 
         // Delete
         public void Delete(int id)
         {
-            var user = context.UserAccounts.Find(id);
+            var user = _context.UserAccounts.Find(id);
             if (user != null)
             {
-                context.UserAccounts.Remove(user);
-                context.SaveChanges();
+                _context.UserAccounts.Remove(user);
             }
         }
 
-        // Login
-        public UserAccount Login(string username, string password)
+        public bool Save()
         {
-            return context.UserAccounts
-                .Include(u => u.Roles)
-                .FirstOrDefault(u => u.Username == username && u.Password == password);
+            return _context.SaveChanges() > 0;
         }
     }
 }
