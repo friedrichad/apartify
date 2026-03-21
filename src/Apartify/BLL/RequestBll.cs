@@ -5,7 +5,7 @@ using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
-    public interface IRequestService
+    public interface IRequestBll
     {
         IEnumerable<Request> GetAllRequests();
         Request? GetRequestById(int id);
@@ -14,11 +14,11 @@ namespace Apartify.BLL
         bool DeleteRequest(int id);
     }
 
-    public class RequestService : IRequestService
+    public class RequestBll : IRequestBll
     {
         private readonly IRequestDal _requestDal;
 
-        public RequestService(IRequestDal requestDal)
+        public RequestBll(IRequestDal requestDal)
         {
             _requestDal = requestDal;
         }

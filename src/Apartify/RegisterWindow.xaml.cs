@@ -10,17 +10,18 @@ namespace Apartify
 {
     public partial class RegisterWindow : Window
     {
-        private readonly UserAccountBLL _userAccountBLL;
-        private readonly ResidentService _residentService;
+        private readonly IUserAccountBll _userAccountBll;
+        private readonly IResidentBll _residentBll;
 
         public RegisterWindow()
         {
             InitializeComponent();
-            _userAccountBLL = new UserAccountBLL();
-            
             var context = new ApartifyContext();
+            var userAccountDal = new UserAccountDal(context);
+            _userAccountBll = new UserAccountBll(userAccountDal);
+            
             var residentDal = new ResidentDal(context);
-            _residentService = new ResidentService(residentDal);
+            _residentBll = new ResidentBll(residentDal);
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
@@ -101,7 +102,7 @@ namespace Apartify
                     }
                 }
 
-                _userAccountBLL.CreateUser(newUser);
+                _userAccountBll.CreateUser(newUser);
 
                 // 2. Create Resident record if Resident role is selected
                 if (isResident)
@@ -113,7 +114,7 @@ namespace Apartify
                         Email = email,
                         UserId = newUser.UserId
                     };
-                    _residentService.AddResident(newResident);
+                    _residentBll.AddResident(newResident);
                 }
 
                 string message = isResident 

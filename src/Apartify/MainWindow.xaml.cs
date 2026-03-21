@@ -18,11 +18,13 @@ namespace Apartify
     /// </summary>
     public partial class MainWindow : Window
     {
-        private UserAccountBLL _userAccountBLL;
+        private UserAccountBll _userAccountBll;
         public MainWindow()
         {
             InitializeComponent();
-            _userAccountBLL = new UserAccountBLL();
+            var context = new ApartifyContext();
+            var dal = new UserAccountDal(context);
+            _userAccountBll = new UserAccountBll(dal);
         }
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
@@ -35,7 +37,7 @@ namespace Apartify
                 return;
             }
 
-            var user = _userAccountBLL.Login(username, password);
+            var user = _userAccountBll.Login(username, password);
 
             if (user != null)
             {
