@@ -1,0 +1,4 @@
+﻿/// <summary>
+/// This class represents the view for the "Bo Cuc" feature.
+/// Viet 
+/// </summary>
