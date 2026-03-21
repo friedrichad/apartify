@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Apartify.DAL;
 using Apartify.Models;
+using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
@@ -35,8 +36,7 @@ namespace Apartify.BLL
 
         public bool Create(Building building)
         {
-            if (string.IsNullOrWhiteSpace(building.Name))
-                return false;
+            ValidateHelper.ValidateBuilding(building);
 
             _buildingDal.Add(building);
             return _buildingDal.Save();
@@ -44,6 +44,8 @@ namespace Apartify.BLL
 
         public bool Edit(Building building)
         {
+            ValidateHelper.ValidateBuilding(building);
+
             var existing = _buildingDal.GetById(building.BuildingId);
             if (existing == null) return false;
 

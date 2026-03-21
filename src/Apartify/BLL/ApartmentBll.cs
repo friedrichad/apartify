@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Apartify.DAL;
 using Apartify.Models;
+using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
@@ -36,8 +37,7 @@ namespace Apartify.BLL
 
         public bool Create(Apartment apartment)
         {
-            if (string.IsNullOrWhiteSpace(apartment.Number))
-                return false;
+            ValidateHelper.ValidateApartment(apartment);
 
             _apartmentDal.Add(apartment);
             return _apartmentDal.Save();
@@ -45,6 +45,8 @@ namespace Apartify.BLL
 
         public bool Edit(Apartment apartment)
         {
+            ValidateHelper.ValidateApartment(apartment);
+
             var existing = _apartmentDal.GetApartmentById(apartment.ApartmentId);
             if (existing == null) return false;
 
