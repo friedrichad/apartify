@@ -1,7 +1,7 @@
-﻿using Apartify.DAL;
 using Apartify.Models;
 using System;
 using System.Collections.Generic;
+using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
@@ -26,17 +26,21 @@ namespace Apartify.BLL
         }
 
         // Lấy user theo id
-        public UserAccount GetUserById(int id)
+        public UserAccount? GetUserById(int id)
         {
             return dal.GetById(id);
         }
 
         // Login
-        public UserAccount Login(string username, string password)
+        public UserAccount? Login(string username, string password)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                throw new Exception("Username hoặc Password không được để trống");
+                throw new Exception("Username or Password cannot be empty");
+            }
+            if (username.Length > 50 || password.Length > 100)
+            {
+                return null;
             }
 
             return dal.Login(username, password);
@@ -45,11 +49,10 @@ namespace Apartify.BLL
         // Tạo user
         public void CreateUser(UserAccount user)
         {
-            if (string.IsNullOrEmpty(user.Username))
-                throw new Exception("Username không được để trống");
+            ValidateHelper.ValidateUserAccount(user);
 
-            if (string.IsNullOrEmpty(user.Password))
-                throw new Exception("Password không được để trống");
+            if (dal.GetByUsername(user.Username) != null)
+                throw new Exception("Username already exists");
 
             dal.Add(user);
         }
@@ -57,8 +60,7 @@ namespace Apartify.BLL
         // Update user
         public void UpdateUser(UserAccount user)
         {
-            if (user.UserId <= 0)
-                throw new Exception("User không hợp lệ");
+            ValidateHelper.ValidateUserAccount(user);
 
             dal.Update(user);
         }
@@ -66,9 +68,6 @@ namespace Apartify.BLL
         // Xóa user
         public void DeleteUser(int id)
         {
-            if (id <= 0)
-                throw new Exception("Id không hợp lệ");
-
             dal.Delete(id);
         }
 
@@ -78,7 +77,7 @@ namespace Apartify.BLL
             var user = dal.GetById(userId);
 
             if (user == null)
-                throw new Exception("User không tồn tại");
+                throw new Exception("User does not exist");
 
             user.Status = status;
 

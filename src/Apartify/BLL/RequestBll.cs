@@ -1,6 +1,7 @@
-﻿using Apartify.DAL;
+using Apartify.DAL;
 using Apartify.Models;
 using System.Collections.Generic;
+using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
@@ -34,12 +35,16 @@ namespace Apartify.BLL
 
         public bool AddRequest(Request request)
         {
+            ValidateHelper.ValidateRequest(request);
+
             _requestDal.Add(request);
             return _requestDal.Save();
         }
 
         public bool UpdateRequest(Request request)
         {
+            ValidateHelper.ValidateRequest(request);
+
             _requestDal.Update(request);
             return _requestDal.Save();
         }

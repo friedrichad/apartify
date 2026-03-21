@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 using Apartify.DAL;
 using Apartify.Models;
+using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
@@ -36,12 +37,16 @@ namespace Apartify.BLL
 
         public bool AddResident(Resident resident)
         {
+            ValidateHelper.ValidateResident(resident);
+
             _residentDal.Add(resident);
             return _residentDal.Save();
         }
 
         public bool UpdateResident(Resident resident)
         {
+            ValidateHelper.ValidateResident(resident);
+
             _residentDal.Update(resident);
             return _residentDal.Save();
         }

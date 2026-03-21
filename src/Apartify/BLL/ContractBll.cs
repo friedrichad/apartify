@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Apartify.DAL;
 using Apartify.Models;
+using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
@@ -35,8 +36,7 @@ namespace Apartify.BLL
 
         public bool Create(Contract contract)
         {
-            if (contract.ApartmentId == null || contract.ResidentId == null)
-                return false;
+            ValidateHelper.ValidateContract(contract);
 
             _contractDal.Add(contract);
             return _contractDal.Save();
@@ -44,6 +44,8 @@ namespace Apartify.BLL
 
         public bool Edit(Contract contract)
         {
+            ValidateHelper.ValidateContract(contract);
+
             var existing = _contractDal.GetContractById(contract.ContractId);
             if (existing == null) return false;
 

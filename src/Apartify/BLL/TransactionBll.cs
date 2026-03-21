@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Apartify.DAL;
 using Apartify.Models;
+using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
@@ -34,12 +35,16 @@ namespace Apartify.BLL
 
         public bool AddTransaction(Transaction transaction)
         {
+            ValidateHelper.ValidateTransaction(transaction);
+
             _transactionDal.Add(transaction);
             return _transactionDal.Save();
         }
 
         public bool UpdateTransaction(Transaction transaction)
         {
+            ValidateHelper.ValidateTransaction(transaction);
+
             _transactionDal.Update(transaction);
             return _transactionDal.Save();
         }

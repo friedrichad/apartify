@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Apartify.DAL;
 using Apartify.Models;
+using Apartify.BLL.Helpers;
 
 namespace Apartify.BLL
 {
@@ -34,12 +35,16 @@ namespace Apartify.BLL
 
         public bool AddStaff(Staff staff)
         {
+            ValidateHelper.ValidateStaff(staff);
+
             _staffDal.Add(staff);
             return _staffDal.Save();
         }
 
         public bool UpdateStaff(Staff staff)
         {
+            ValidateHelper.ValidateStaff(staff);
+
             _staffDal.Update(staff);
             return _staffDal.Save();
         }
