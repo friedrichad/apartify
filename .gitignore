@@ -20,8 +20,6 @@
 [Oo]ptions/Bin/
 packages/
 # Common development files
-*.sln
-*.csproj
 *.vbproj
 *.dbmdl
 *.dbproj
