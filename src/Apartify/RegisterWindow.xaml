@@ -1,9 +1,9 @@
-<Window x:Class="Apartify.Views.RegisterWindow"
+<Window x:Class="Apartify.RegisterWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Apartify.Views"
+        xmlns:local="clr-namespace:Apartify"
         mc:Ignorable="d"
         Title="Resident Register Account" Height="500" Width="800" WindowStartupLocation="CenterScreen">
     <Grid Margin="30">

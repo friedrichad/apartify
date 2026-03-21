@@ -53,6 +53,7 @@ public partial class ApartifyContext : DbContext
 
         return strConn;
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Apartment>(entity =>

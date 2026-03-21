@@ -6,7 +6,7 @@ using Apartify.BLL;
 using Apartify.DAL;
 using Apartify.Models;
 
-namespace Apartify.Views
+namespace Apartify
 {
     public partial class RegisterWindow : Window
     {
