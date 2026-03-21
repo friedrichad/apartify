@@ -1,4 +1,5 @@
 ﻿using Apartify.BLL;
+using Apartify.DAL;
 using Apartify.Models;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,32 @@ namespace Apartify.Views.manager
         public BuildingManagementWindow()
         {
             InitializeComponent();
+            var context = new ApartifyContext();
+            _buildingBll = new BuildingBll(new BuildingDal(context));
+            this.DataContext = this;
+            LoadData();
+        }
+        public void LoadData()
+        {
+            Buildings = new ObservableCollection<Building>(_buildingBll.GetList());
+            dgBuilding.ItemsSource= Buildings;
+            SelectedBuilding = new Building();
+        }
+        //add
+        private void AddCommand(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (_buildingBll.Create(SelectedBuilding))
+                {
+                    MessageBox.Show("Add success");
+                    LoadData();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
