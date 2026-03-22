@@ -34,18 +34,37 @@ namespace Apartify.Views.manager
             this.DataContext = this;
             LoadData();
         }
-        public void LoadData()
+        private void LoadData()
         {
             Buildings = new ObservableCollection<Building>(_buildingBll.GetList());
-            dgBuilding.ItemsSource= Buildings;
-            SelectedBuilding = new Building();
+            dgBuilding.ItemsSource = null;
+            dgBuilding.ItemsSource = Buildings;
+            SelectedBuilding = null;
+
+            txtName.Text = "";
+            txtAddress.Text = "";
         }
-        //add
+        private void DgBuilding_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedBuilding = dgBuilding.SelectedItem as Building;
+            if (SelectedBuilding != null)
+            {
+                txtName.Text = SelectedBuilding.Name;
+                txtAddress.Text = SelectedBuilding.Address;
+            }
+        }
+        // Add
         private void AddCommand(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (_buildingBll.Create(SelectedBuilding))
+                var building = new Building
+                {
+                    Name = txtName.Text,
+                    Address = txtAddress.Text
+                };
+
+                if (_buildingBll.Create(building))
                 {
                     MessageBox.Show("Add success");
                     LoadData();
@@ -55,6 +74,59 @@ namespace Apartify.Views.manager
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        // Edit
+        private void EditCommand(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (SelectedBuilding == null) return;
+
+                SelectedBuilding.Name = txtName.Text;
+                SelectedBuilding.Address = txtAddress.Text;
+
+                if (_buildingBll.Edit(SelectedBuilding))
+                {
+                    MessageBox.Show("Edit success");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Edit failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        // Delete
+        private void DeleteCommand(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (SelectedBuilding == null) return;
+
+                if (_buildingBll.Remove(SelectedBuilding.BuildingId))
+                {
+                    MessageBox.Show("Delete success");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Delete failed. Building may have apartments.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        //Close
+        private void CloseCommand(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
