@@ -1,4 +1,4 @@
-﻿using Apartify.BLL;
+using Apartify.BLL;
 using Apartify.DAL;
 using Apartify.Models;
 using System;
@@ -127,6 +127,18 @@ namespace Apartify.Views.manager
         private void CloseCommand(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void NavApartment_Click(object sender, RoutedEventArgs e)
+        {
+            ApartmentManagementWindow aptWin = new ApartmentManagementWindow();
+            aptWin.Show();
+        }
+
+        private void NavResident_Click(object sender, RoutedEventArgs e)
+        {
+            ResidentManagementWindow resWin = new ResidentManagementWindow();
+            resWin.Show();
         }
     }
 }

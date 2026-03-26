@@ -56,7 +56,7 @@ namespace Apartify
                     }
                     else if (user.Role == "Resident")
                     {
-                        ApartmentWindow aptWindow = new ApartmentWindow();
+                        ApartmentWindow aptWindow = new ApartmentWindow(user);
                         aptWindow.Show();
                     }
                     else

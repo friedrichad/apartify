@@ -1,27 +1,57 @@
-﻿<Window x:Class="Apartify.Views.manager.ApartmentManagementWindow"
+<Window x:Class="Apartify.Views.manager.ApartmentManagementWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Apartify.Views.manager"
         mc:Ignorable="d"
-        Title="ApartmentManagementWindow" Height="450" Width="800">
-    <Grid>
+        Title="ApartmentManagementWindow" Height="500" Width="900" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="3" BorderBrush="Black" BorderThickness="2" Margin="5">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="2" Text="Nội dung trong Border - Cột 0" 
-                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Grid>
+        <Border Grid.Column="0" BorderBrush="#CCC" BorderThickness="0,0,1,0" Padding="10">
+            <StackPanel>
+                <TextBlock Text="APARTMENT MANAGEMENT" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                <Label Content="Apartment Number:"/>
+                <TextBox x:Name="txtNumber" Padding="0,5,0,5" Margin="0,0,0,10"/>
+
+                <Label Content="Floor:"/>
+                <TextBox x:Name="txtFloor" Padding="0,5,0,5" Margin="0,0,0,10"/>
+
+                <Label Content="Area (m2):"/>
+                <TextBox x:Name="txtArea" Padding="0,5,0,5" Margin="0,0,0,10"/>
+
+                <Label Content="Building:"/>
+                <ComboBox x:Name="cboBuilding" DisplayMemberPath="Name" SelectedValuePath="BuildingId" Padding="0,5,0,5" Margin="0,0,0,10"/>
+
+                <UniformGrid Columns="2" Margin="0,10,0,0">
+                    <Button Content="Add" Click="AddCommand" Margin="5" Height="30"/>
+                    <Button Content="Save Change" Click="EditCommand" Margin="5" Height="30" Background="LightBlue"/>
+                    <Button Content="Delete" Click="DeleteCommand" Margin="5" Height="30" Background="#e74c3c" Foreground="White"/>
+                    <Button Content="Close" Click="CloseCommand" Margin="5" Height="30"/>
+                </UniformGrid>
+            </StackPanel>
         </Border>
+
+        <Grid Grid.Column="1" Margin="10,0,0,0">
+            <DataGrid x:Name="dgApartment" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      SelectionChanged="DgApartment_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding ApartmentId}" Width="50"/>
+                    <DataGridTextColumn Header="Number" Binding="{Binding Number}" Width="80"/>
+                    <DataGridTextColumn Header="Floor" Binding="{Binding Floor}" Width="60"/>
+                    <DataGridTextColumn Header="Area" Binding="{Binding Area}" Width="60"/>
+                    <DataGridTextColumn Header="Building" Binding="{Binding Building.Name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>

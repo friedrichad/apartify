@@ -1,12 +1,53 @@
-﻿<Window x:Class="Apartify.Views.manager.ResidentManagementWindow"
+<Window x:Class="Apartify.Views.manager.ResidentManagementWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Apartify.Views.manager"
         mc:Ignorable="d"
-        Title="ResidentManagementWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="ResidentManagementWindow" Height="500" Width="900" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" BorderBrush="#CCC" BorderThickness="0,0,1,0" Padding="10">
+            <StackPanel>
+                <TextBlock Text="RESIDENT MANAGEMENT" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                <Label Content="Full Name:"/>
+                <TextBox x:Name="txtFullName" Padding="0,5,0,5" Margin="0,0,0,10"/>
+
+                <Label Content="Phone:"/>
+                <TextBox x:Name="txtPhone" Padding="0,5,0,5" Margin="0,0,0,10"/>
+
+                <Label Content="Email:"/>
+                <TextBox x:Name="txtEmail" Padding="0,5,0,5" Margin="0,0,0,10"/>
+
+                <UniformGrid Columns="2" Margin="0,10,0,0">
+                    <Button Content="Add" Click="AddCommand" Margin="5" Height="30"/>
+                    <Button Content="Save Change" Click="EditCommand" Margin="5" Height="30" Background="LightBlue"/>
+                    <Button Content="Delete" Click="DeleteCommand" Margin="5" Height="30" Background="#e74c3c" Foreground="White"/>
+                    <Button Content="Close" Click="CloseCommand" Margin="5" Height="30"/>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="1" Margin="10,0,0,0">
+            <DataGrid x:Name="dgResident" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      SelectionChanged="DgResident_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding ResidentId}" Width="50"/>
+                    <DataGridTextColumn Header="Full Name" Binding="{Binding FullName}" Width="*"/>
+                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="100"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>
