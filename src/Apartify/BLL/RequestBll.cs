@@ -7,11 +7,11 @@ namespace Apartify.BLL
 {
     public interface IRequestBll
     {
-        IEnumerable<Request> GetAllRequests();
-        Request? GetRequestById(int id);
-        bool AddRequest(Request request);
-        bool UpdateRequest(Request request);
-        bool DeleteRequest(int id);
+        IEnumerable<Request> GetList();
+        Request? GetDetail(int id);
+        bool Create(Request request);
+        bool Edit(Request request);
+        bool Remove(int id);
     }
 
     public class RequestBll : IRequestBll
@@ -23,17 +23,17 @@ namespace Apartify.BLL
             _requestDal = requestDal;
         }
 
-        public IEnumerable<Request> GetAllRequests()
+        public IEnumerable<Request> GetList()
         {
             return _requestDal.GetAll();
         }
 
-        public Request? GetRequestById(int id)
+        public Request? GetDetail(int id)
         {
             return _requestDal.GetById(id);
         }
 
-        public bool AddRequest(Request request)
+        public bool Create(Request request)
         {
             ValidateHelper.ValidateRequest(request);
 
@@ -41,7 +41,7 @@ namespace Apartify.BLL
             return _requestDal.Save();
         }
 
-        public bool UpdateRequest(Request request)
+        public bool Edit(Request request)
         {
             ValidateHelper.ValidateRequest(request);
 
@@ -49,7 +49,7 @@ namespace Apartify.BLL
             return _requestDal.Save();
         }
 
-        public bool DeleteRequest(int id)
+        public bool Remove(int id)
         {
             _requestDal.Delete(id);
             return _requestDal.Save();

@@ -8,12 +8,12 @@ namespace Apartify.BLL
 {
     public interface IUserAccountBll
     {
-        IEnumerable<UserAccount> GetAllUsers();
-        UserAccount? GetUserById(int id);
+        IEnumerable<UserAccount> GetList();
+        UserAccount? GetDetail(int id);
         UserAccount? Login(string username, string password);
-        bool CreateUser(UserAccount user);
-        bool UpdateUser(UserAccount user);
-        bool DeleteUser(int id);
+        bool Create(UserAccount user);
+        bool Edit(UserAccount user);
+        bool Remove(int id);
         bool ChangeStatus(int userId, int status);
     }
 
@@ -27,13 +27,13 @@ namespace Apartify.BLL
         }
 
         // Lấy tất cả user
-        public IEnumerable<UserAccount> GetAllUsers()
+        public IEnumerable<UserAccount> GetList()
         {
             return _userAccountDal.GetAll();
         }
 
         // Lấy user theo id
-        public UserAccount? GetUserById(int id)
+        public UserAccount? GetDetail(int id)
         {
             return _userAccountDal.GetById(id);
         }
@@ -55,7 +55,7 @@ namespace Apartify.BLL
         }
 
         // Tạo user
-        public bool CreateUser(UserAccount user)
+        public bool Create(UserAccount user)
         {
             ValidateHelper.ValidateUserAccount(user);
 
@@ -67,7 +67,7 @@ namespace Apartify.BLL
         }
 
         // Update user
-        public bool UpdateUser(UserAccount user)
+        public bool Edit(UserAccount user)
         {
             ValidateHelper.ValidateUserAccount(user);
 
@@ -76,7 +76,7 @@ namespace Apartify.BLL
         }
 
         // Xóa user
-        public bool DeleteUser(int id)
+        public bool Remove(int id)
         {
             _userAccountDal.Delete(id);
             return _userAccountDal.Save();

@@ -10,11 +10,11 @@ namespace Apartify.BLL
 {
     public interface IResidentBll
     {
-        IEnumerable<Resident> GetAllResidents();
-        Resident? GetResidentById(int id);
-        bool AddResident(Resident resident);
-        bool UpdateResident(Resident resident);
-        bool DeleteResident(int id);
+        IEnumerable<Resident> GetList();
+        Resident? GetDetail(int id);
+        bool Create(Resident resident);
+        bool Edit(Resident resident);
+        bool Remove(int id);
     }
     public class ResidentBll : IResidentBll
     {
@@ -25,17 +25,17 @@ namespace Apartify.BLL
             _residentDal = residentDal;
         }
 
-        public IEnumerable<Resident> GetAllResidents()
+        public IEnumerable<Resident> GetList()
         {
             return _residentDal.GetAll();
         }
 
-        public Resident? GetResidentById(int id)
+        public Resident? GetDetail(int id)
         {
             return _residentDal.GetById(id);
         }
 
-        public bool AddResident(Resident resident)
+        public bool Create(Resident resident)
         {
             ValidateHelper.ValidateResident(resident);
 
@@ -43,7 +43,7 @@ namespace Apartify.BLL
             return _residentDal.Save();
         }
 
-        public bool UpdateResident(Resident resident)
+        public bool Edit(Resident resident)
         {
             ValidateHelper.ValidateResident(resident);
 
@@ -51,7 +51,7 @@ namespace Apartify.BLL
             return _residentDal.Save();
         }
 
-        public bool DeleteResident(int id)
+        public bool Remove(int id)
         {
             _residentDal.Delete(id);
             return _residentDal.Save();
