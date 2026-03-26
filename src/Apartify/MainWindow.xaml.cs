@@ -1,0 +1,87 @@
+using Apartify.BLL;
+using Apartify.Models;
+using Apartify.DAL;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Apartify.Views.manager;
+using Apartify.Views;
+
+namespace Apartify
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        private IUserAccountBll _userAccountBll;
+        public MainWindow()
+        {
+            InitializeComponent();
+            var context = new ApartifyContext();
+            var dal = new UserAccountDal(context);
+            _userAccountBll = new UserAccountBll(dal);
+        }
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Password.Trim();
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                lblError.Text = "Please, Enter Username and Password";
+                return;
+            }
+
+            try
+            {
+                var user = _userAccountBll.Login(username, password);
+
+                if (user != null)
+                {
+                    MessageBox.Show("Login succeed!");
+
+                    // Mở cửa sổ dựa trên role
+                    if (user.Role == "Manager")
+                    {
+                        BuildingManagementWindow buildingWin = new BuildingManagementWindow();
+                        buildingWin.Show();
+                    }
+                    else if (user.Role == "Resident")
+                    {
+                        ApartmentWindow aptWindow = new ApartmentWindow();
+                        aptWindow.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Role is not assigned yet or pending approval.");
+                        return;
+                    }
+
+                    this.Close();
+                }
+                else
+                {
+                    lblError.Text = "Wrong username or password";
+                }
+            }
+            catch (System.Exception ex)
+            {
+                lblError.Text = ex.Message;
+            }
+        }
+        private void Register_Click(object sender, MouseButtonEventArgs e)
+        {
+            RegisterWindow registerWindow = new RegisterWindow();
+            registerWindow.ShowDialog();
+        }
+
+    }
+}
