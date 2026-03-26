@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,8 +9,8 @@ namespace Apartify.DAL
 {
     public interface IResidentDal
     {
-        IEnumerable<Resident> GetAllResidents();
-        Resident? GetResidentById(int id);
+        IEnumerable<Resident> GetAll();
+        Resident? GetById(int id);
         void Add(Resident resident);
         void Update(Resident resident);
         void Delete(int id);
@@ -26,12 +26,12 @@ namespace Apartify.DAL
             _context = context;
         }
 
-        public IEnumerable<Resident> GetAllResidents()
+        public IEnumerable<Resident> GetAll()
         {
             return _context.Residents.ToList();
         }
 
-        public Resident? GetResidentById(int id)
+        public Resident? GetById(int id)
         {
             return _context.Residents.FirstOrDefault(r => r.ResidentId == id);
         }

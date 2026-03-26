@@ -27,12 +27,12 @@ namespace Apartify.BLL
 
         public IEnumerable<Resident> GetAllResidents()
         {
-            return _residentDal.GetAllResidents();
+            return _residentDal.GetAll();
         }
 
         public Resident? GetResidentById(int id)
         {
-            return _residentDal.GetResidentById(id);
+            return _residentDal.GetById(id);
         }
 
         public bool AddResident(Resident resident)

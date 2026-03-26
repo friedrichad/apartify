@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Apartify.Models;
@@ -8,8 +8,8 @@ namespace Apartify.DAL
 {
     public interface IApartmentDal
     {
-        IEnumerable<Apartment> GetAllApartments();
-        Apartment? GetApartmentById(int id);
+        IEnumerable<Apartment> GetAll();
+        Apartment? GetById(int id);
         void Add(Apartment apartment);
         void Update(Apartment apartment);
         void Delete(int id);
@@ -25,7 +25,7 @@ namespace Apartify.DAL
             _context = context;
         }
 
-        public IEnumerable<Apartment> GetAllApartments()
+        public IEnumerable<Apartment> GetAll()
         {
             return _context.Apartments
                 .Include(a => a.Building)
@@ -33,7 +33,7 @@ namespace Apartify.DAL
                 .ToList();
         }
 
-        public Apartment? GetApartmentById(int id)
+        public Apartment? GetById(int id)
         {
             return _context.Apartments
                 .Include(a => a.Building)

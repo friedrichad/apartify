@@ -11,11 +11,9 @@ public partial class UserAccount
 
     public string? Password { get; set; }
 
+    public string? Role { get; set; }
+
     public int? Status { get; set; }
 
     public virtual Resident? Resident { get; set; }
-
-    public virtual Staff? Staff { get; set; }
-
-    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 }

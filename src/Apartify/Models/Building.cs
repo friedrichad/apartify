@@ -12,6 +12,4 @@ public partial class Building
     public string? Address { get; set; }
 
     public virtual ICollection<Apartment> Apartments { get; set; } = new List<Apartment>();
-
-    public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
 }

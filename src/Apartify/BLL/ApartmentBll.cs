@@ -27,12 +27,12 @@ namespace Apartify.BLL
 
         public IEnumerable<Apartment> GetList()
         {
-            return _apartmentDal.GetAllApartments();
+            return _apartmentDal.GetAll();
         }
 
         public Apartment? GetDetail(int id)
         {
-            return _apartmentDal.GetApartmentById(id);
+            return _apartmentDal.GetById(id);
         }
 
         public bool Create(Apartment apartment)
@@ -47,7 +47,7 @@ namespace Apartify.BLL
         {
             ValidateHelper.ValidateApartment(apartment);
 
-            var existing = _apartmentDal.GetApartmentById(apartment.ApartmentId);
+            var existing = _apartmentDal.GetById(apartment.ApartmentId);
             if (existing == null) return false;
 
             _apartmentDal.Update(apartment);
@@ -56,7 +56,7 @@ namespace Apartify.BLL
 
         public bool Remove(int id)
         {
-            var apt = _apartmentDal.GetApartmentById(id);
+            var apt = _apartmentDal.GetById(id);
             if (apt == null) return false;
 
             if (apt.Contracts.Any())

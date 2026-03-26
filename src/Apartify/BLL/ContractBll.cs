@@ -26,12 +26,12 @@ namespace Apartify.BLL
 
         public IEnumerable<Contract> GetList()
         {
-            return _contractDal.GetAllContracts();
+            return _contractDal.GetAll();
         }
 
         public Contract? GetDetail(int id)
         {
-            return _contractDal.GetContractById(id);
+            return _contractDal.GetById(id);
         }
 
         public bool Create(Contract contract)
@@ -46,7 +46,7 @@ namespace Apartify.BLL
         {
             ValidateHelper.ValidateContract(contract);
 
-            var existing = _contractDal.GetContractById(contract.ContractId);
+            var existing = _contractDal.GetById(contract.ContractId);
             if (existing == null) return false;
 
             _contractDal.Update(contract);
@@ -55,7 +55,7 @@ namespace Apartify.BLL
 
         public bool Remove(int id)
         {
-            var contract = _contractDal.GetContractById(id);
+            var contract = _contractDal.GetById(id);
             if (contract == null) return false;
 
             _contractDal.Delete(id);

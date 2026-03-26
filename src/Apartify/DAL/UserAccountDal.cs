@@ -30,9 +30,7 @@ namespace Apartify.DAL
         public IEnumerable<UserAccount> GetAll()
         {
             return _context.UserAccounts
-                .Include(u => u.Roles)
                 .Include(u => u.Resident)
-                .Include(u => u.Staff)
                 .ToList();
         }
 
@@ -40,7 +38,7 @@ namespace Apartify.DAL
         public UserAccount? GetById(int id)
         {
             return _context.UserAccounts
-                .Include(u => u.Roles)
+                .Include(u => u.Resident)
                 .FirstOrDefault(u => u.UserId == id);
         }
 
@@ -48,7 +46,7 @@ namespace Apartify.DAL
         public UserAccount? GetByUsername(string username)
         {
             return _context.UserAccounts
-                .Include(u => u.Roles)
+                .Include(u => u.Resident)
                 .FirstOrDefault(u => u.Username == username);
         }
 

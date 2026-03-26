@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Apartify.Models;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +28,6 @@ namespace Apartify.DAL
         {
             return _context.Buildings
                 .Include(b => b.Apartments)
-                .Include(b => b.Staff)
                 .ToList();
         }
 
@@ -36,7 +35,6 @@ namespace Apartify.DAL
         {
             return _context.Buildings
                 .Include(b => b.Apartments)
-                .Include(b => b.Staff)
                 .FirstOrDefault(b => b.BuildingId == id);
         }
 

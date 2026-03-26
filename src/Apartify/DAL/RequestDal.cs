@@ -1,4 +1,4 @@
-﻿using Apartify.Models;
+using Apartify.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,6 @@ namespace Apartify.DAL
             return _context.Requests
                 .Include(r => r.Resident)
                 .Include(r => r.Apartment)
-                .Include(r => r.Staff)
                 .ToList();
         }
 
@@ -38,7 +37,6 @@ namespace Apartify.DAL
             return _context.Requests
                 .Include(r => r.Resident)
                 .Include(r => r.Apartment)
-                .Include(r => r.Staff)
                 .FirstOrDefault(r => r.RequestId == id);
         }
 

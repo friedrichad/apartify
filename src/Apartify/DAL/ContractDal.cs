@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Apartify.Models;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +7,8 @@ namespace Apartify.DAL
 {
     public interface IContractDal
     {
-        IEnumerable<Contract> GetAllContracts();
-        Contract? GetContractById(int id);
+        IEnumerable<Contract> GetAll();
+        Contract? GetById(int id);
         void Add(Contract contract);
         void Update(Contract contract);
         void Delete(int id);
@@ -24,7 +24,7 @@ namespace Apartify.DAL
             _context = context;
         }
 
-        public IEnumerable<Contract> GetAllContracts()
+        public IEnumerable<Contract> GetAll()
         {
             return _context.Contracts
                 .Include(c => c.Apartment)
@@ -32,7 +32,7 @@ namespace Apartify.DAL
                 .ToList();
         }
 
-        public Contract? GetContractById(int id)
+        public Contract? GetById(int id)
         {
             return _context.Contracts
                 .Include(c => c.Apartment)

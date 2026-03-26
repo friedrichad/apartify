@@ -72,27 +72,6 @@ namespace Apartify.BLL.Helpers
                 throw new Exception("Invalid User ID");
         }
 
-        public static void ValidateStaff(Staff staff)
-        {
-            if (string.IsNullOrWhiteSpace(staff.FullName))
-                throw new Exception("Staff full name cannot be empty");
-            if (staff.FullName.Length > 100)
-                throw new Exception("Full name cannot exceed 100 characters");
-
-            if (!string.IsNullOrWhiteSpace(staff.Phone))
-            {
-                if (staff.Phone.Length > 20)
-                    throw new Exception("Phone number cannot exceed 20 characters");
-                if (!IsValidPhone(staff.Phone))
-                    throw new Exception("Invalid phone number format");
-            }
-
-            // NEW: FK Validations
-            if (staff.BuildingId <= 0)
-                throw new Exception("Invalid Building ID");
-            if (staff.UserId <= 0)
-                throw new Exception("Invalid User ID");
-        }
 
         public static void ValidateContract(Contract contract, bool isApartmentOccupied = false)
         {
@@ -113,48 +92,7 @@ namespace Apartify.BLL.Helpers
                 throw new Exception("Apartment already has an active contract");
         }
 
-        public static void ValidateServiceFee(ServiceFee fee, bool isDuplicate = false)
-        {
-            if (fee.Amount.HasValue && fee.Amount < 0)
-                throw new Exception("Service fee amount cannot be negative");
 
-            if (string.IsNullOrWhiteSpace(fee.Month))
-                throw new Exception("Billing month cannot be empty");
-            
-            // NEW: Regex validation for yyyy-MM
-            if (!MonthRegex.IsMatch(fee.Month))
-                throw new Exception("Month must be in yyyy-MM format (e.g., 2024-05)");
-
-            // NEW: FK Validation
-            if (fee.ApartmentId <= 0)
-                throw new Exception("Invalid Apartment ID");
-
-            // NEW: Business Logic - Check for duplicate ApartmentId + Month
-            if (isDuplicate)
-                throw new Exception("Service fee for this apartment in this month already exists");
-        }
-
-        public static void ValidateTransaction(Transaction transaction, bool isFeePaid = false)
-        {
-            if (transaction.Amount.HasValue && transaction.Amount <= 0)
-                throw new Exception("Transaction amount must be greater than 0");
-
-            // FIX: Note is nullable in DB, check length if exists
-            if (!string.IsNullOrWhiteSpace(transaction.Note) && transaction.Note.Length > 200)
-                throw new Exception("Note cannot exceed 200 characters");
-
-            // NEW: FK Validations
-            if (transaction.FeeId <= 0)
-                throw new Exception("Invalid Fee ID");
-            if (transaction.ResidentId <= 0)
-                throw new Exception("Invalid Resident ID");
-            if (transaction.MethodId <= 0)
-                throw new Exception("Invalid Payment Method ID");
-
-            // NEW: Business Logic - Check if ServiceFee is already Paid
-            if (isFeePaid)
-                throw new Exception("Payment cannot be made because this service fee is already paid");
-        }
 
         public static void ValidateRequest(Request request)
         {
@@ -174,8 +112,6 @@ namespace Apartify.BLL.Helpers
                 throw new Exception("Invalid Resident ID");
             if (request.ApartmentId <= 0)
                 throw new Exception("Invalid Apartment ID");
-            if (request.StaffId.HasValue && request.StaffId <= 0)
-                throw new Exception("Invalid Staff ID");
         }
 
         public static void ValidateUserAccount(UserAccount user, bool isUsernameDuplicate = false)
