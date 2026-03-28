@@ -1,0 +1,35 @@
+<Window x:Class="Apartify.Views.staff.HomeStaff"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Staff Home" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid Background="#F4F7F6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#34495E" Padding="20">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Apartify" FontSize="24" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                <Separator Width="2" Margin="15,0" Background="#2C3E50"/>
+                <TextBlock Text="Staff Workspace" FontSize="18" Foreground="#ECF0F1" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Main Content -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Hello, Staff Member!" FontSize="32" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+            <TextBlock Text="Manage day-to-day operations here." FontSize="18" Foreground="#7F8C8D" Margin="0,0,0,30" HorizontalAlignment="Center"/>
+            
+            <WrapPanel HorizontalAlignment="Center">
+                <Button Content="Check-ins" Width="200" Height="100" Margin="10" Background="#3498DB" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                <Button Content="Requests" Width="200" Height="100" Margin="10" Background="#E67E22" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                <Button Content="Logs" Width="200" Height="100" Margin="10" Background="#27AE60" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Window>

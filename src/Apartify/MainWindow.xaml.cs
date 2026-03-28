@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Apartify.Views.manager;
+using Apartify.Views.staff;
+using Apartify.Views.resident;
 using Apartify.Views;
 
 namespace Apartify
@@ -49,15 +51,20 @@ namespace Apartify
                     MessageBox.Show("Login succeed!");
 
                     // Mở cửa sổ dựa trên role
-                    if (user.Role == "Manager")
+                    if (user.Role == "1") // Manager
                     {
-                        BuildingManagementWindow buildingWin = new BuildingManagementWindow();
-                        buildingWin.Show();
+                        HomeManager managerHome = new HomeManager();
+                        managerHome.Show();
                     }
-                    else if (user.Role == "Resident")
+                    else if (user.Role == "2") // Staff
                     {
-                        ApartmentWindow aptWindow = new ApartmentWindow(user);
-                        aptWindow.Show();
+                        HomeStaff staffHome = new HomeStaff();
+                        staffHome.Show();
+                    }
+                    else if (user.Role == "3" || user.Role == "Resident") // Resident (keeping "Resident" for backward compatibility if needed)
+                    {
+                        HomeResident residentHome = new HomeResident();
+                        residentHome.Show();
                     }
                     else
                     {
