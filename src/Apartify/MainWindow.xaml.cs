@@ -45,12 +45,13 @@ namespace Apartify
             try
             {
                 var user = _userAccountBll.Login(username, password);
-                if(user.Status == 1){
-                    lblError.Text = "Your account is locked";
-                    return;
-                }
                 if (user != null)
                 {
+                    if (user.Status == 1)
+                    {
+                        lblError.Text = "Your account is locked";
+                        return;
+                    }
                     MessageBox.Show("Login succeed!");
 
                     // Mở cửa sổ dựa trên role
