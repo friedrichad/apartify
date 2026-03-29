@@ -1,0 +1,59 @@
+<Window x:Class="Apartify.Views.staff.ContractsStaff"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Payments" Height="500" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0" Margin="0,0,0,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Contracts" FontSize="20" FontWeight="Bold" />
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <TextBox x:Name="TxtSearch" Width="200" Margin="0,0,8,0" ToolTip="Search by resident, apartment number or building" />
+            <Button x:Name="BtnSearch" Content="Search" Width="75" Margin="0,0,8,0" />
+        </StackPanel>
+    </Grid>
+
+        <Grid Grid.Row="1">
+        <DataGrid x:Name="DataGridContracts" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ContractId}" Width="60" />
+                <DataGridTextColumn Header="Building" Binding="{Binding Apartment.Building.Name}" Width="120" />
+                <DataGridTextColumn Header="Apartment" Binding="{Binding Apartment.Number}" Width="100" />
+                <DataGridTextColumn Header="Floor" Binding="{Binding Apartment.Floor}" Width="80" />
+                <DataGridTextColumn Header="Area" Binding="{Binding Apartment.Area, StringFormat=N2}" Width="100" />
+                <DataGridTextColumn Header="Resident" Binding="{Binding Resident.FullName}" Width="*" />
+                <DataGridTextColumn Header="Start" Binding="{Binding StartDate, StringFormat=d}" Width="110" />
+                <DataGridTextColumn Header="End" Binding="{Binding EndDate, StringFormat=d}" Width="110" />
+            </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock x:Name="TxtEmpty" Text="No contracts available." FontStyle="Italic" Foreground="Gray"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button x:Name="BtnBack" Content="Back" Width="80" Margin="0,0,8,0" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                <Button x:Name="BtnRefresh" Content="Refresh" Width="80" Margin="0,0,8,0" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

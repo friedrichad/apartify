@@ -26,10 +26,12 @@
             <TextBlock Text="Manage day-to-day operations here." FontSize="18" Foreground="#7F8C8D" Margin="0,0,0,30" HorizontalAlignment="Center"/>
             
             <WrapPanel HorizontalAlignment="Center">
-                <Button Content="Check-ins" Width="200" Height="100" Margin="10" Background="#3498DB" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
-                <Button Content="Requests" Width="200" Height="100" Margin="10" Background="#E67E22" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
-                <Button Content="Logs" Width="200" Height="100" Margin="10" Background="#27AE60" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                <Button x:Name="BtnRequests" Content="Requests" Width="220" Height="80" Margin="10" Background="#E67E22" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                <Button x:Name="BtnPayments" Content="Contracts" Width="220" Height="80" Margin="10" Background="#9B59B6" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
             </WrapPanel>
+            <StackPanel HorizontalAlignment="Center" Margin="0,20,0,0">
+                <Button x:Name="BtnLogout" Content="Logout" Width="120" Height="36" Background="#E74C3C" Foreground="White" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

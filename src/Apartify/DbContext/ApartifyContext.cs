@@ -22,7 +22,6 @@ public partial class ApartifyContext : DbContext
     public virtual DbSet<Building> Buildings { get; set; }
 
     public virtual DbSet<Contract> Contracts { get; set; }
-
     public virtual DbSet<Request> Requests { get; set; }
 
     public virtual DbSet<Resident> Residents { get; set; }
@@ -107,6 +106,8 @@ public partial class ApartifyContext : DbContext
                 .HasForeignKey(d => d.ResidentId)
                 .HasConstraintName("FK__Request__Residen__46E78A0C");
         });
+
+        // ServiceFee table removed from model to match current database schema
 
         modelBuilder.Entity<Resident>(entity =>
         {
