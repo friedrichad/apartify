@@ -11,7 +11,7 @@ namespace Apartify.BLL.Helpers
         private static readonly Regex MonthRegex = new Regex(@"^\d{4}-(0[1-9]|1[0-2])$");
 
         // NEW: Allowed statuses for Request
-        private static readonly string[] AllowedStatuses = { "Pending", "Processing", "Done" };
+        private static readonly string[] AllowedStatuses = { "Pending", "Processing", "Done", "Canceled" };
 
         public static void ValidateBuilding(Building building)
         {

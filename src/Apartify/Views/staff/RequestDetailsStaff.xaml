@@ -1,0 +1,44 @@
+<Window x:Class="Apartify.Views.staff.RequestDetailsStaff"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Request Details" Height="380" Width="600" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Request Details" FontSize="18" FontWeight="Bold" />
+
+        <StackPanel Grid.Row="1" Margin="0,10,0,0">
+            <TextBlock Text="Description" FontWeight="SemiBold" />
+            <TextBox x:Name="TxtDescription" IsReadOnly="True" TextWrapping="Wrap" Height="80" />
+
+            <WrapPanel Margin="0,8,0,0">
+                <StackPanel Width="260">
+                    <TextBlock Text="Apartment" FontWeight="SemiBold" />
+                    <TextBlock x:Name="TxtApartment" />
+
+                    <TextBlock Text="Building" FontWeight="SemiBold" Margin="0,8,0,0" />
+                    <TextBlock x:Name="TxtBuilding" />
+                </StackPanel>
+
+                <StackPanel Width="260" Margin="20,0,0,0">
+                    <TextBlock Text="Resident" FontWeight="SemiBold" />
+                    <TextBlock x:Name="TxtResident" />
+
+                    <TextBlock Text="Resident Contact" FontWeight="SemiBold" Margin="0,8,0,0" />
+                    <TextBlock x:Name="TxtResidentContact" />
+                </StackPanel>
+            </WrapPanel>
+
+            <WrapPanel Margin="0,10,0,0">
+                <TextBlock Text="Status:" FontWeight="SemiBold" />
+                <TextBlock x:Name="TxtStatus" Margin="6,0,0,0" />
+
+                <TextBlock Text="Request Date:" FontWeight="SemiBold" Margin="20,0,0,0" />
+                <TextBlock x:Name="TxtDate" Margin="6,0,0,0" />
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Window>
