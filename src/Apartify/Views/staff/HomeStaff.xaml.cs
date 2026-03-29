@@ -12,7 +12,7 @@ namespace Apartify.Views.staff
         {
             InitializeComponent();
             BtnRequests.Click += BtnRequests_Click;
-            BtnPayments.Click += BtnPayments_Click;
+            BtnPayments.Click += BtnContracts_Click;
             BtnLogout.Click += BtnLogout_Click;
         }
 
@@ -31,7 +31,7 @@ namespace Apartify.Views.staff
             }
         }
 
-        private void BtnPayments_Click(object sender, RoutedEventArgs e)
+        private void BtnContracts_Click(object sender, RoutedEventArgs e)
         {
             try
             {

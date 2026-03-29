@@ -40,7 +40,6 @@ namespace Apartify.Views.staff
                 .Include(c => c.Apartment)
                     .ThenInclude(a => a.Building)
                 .Include(c => c.Resident)
-                // order by ContractId ascending so ID column appears 1,2,3...
                 .OrderBy(c => c.ContractId)
                 .ToList();
 
@@ -48,7 +47,6 @@ namespace Apartify.Views.staff
             _contracts = new ObservableCollection<Contract>(list);
             DataGridContracts.ItemsSource = _contracts;
 
-            // Show placeholder when there are no contracts
             TxtEmpty.Visibility = _contracts.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -80,7 +78,6 @@ namespace Apartify.Views.staff
             System.Collections.Generic.List<Contract> filtered;
             if (qNorm.Length == 1)
             {
-                // single character: only match apartment number prefix
                 filtered = _allContracts.Where(c => StartsWithNormalized(c.Apartment?.Number, qNorm)).ToList();
             }
             else

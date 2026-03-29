@@ -71,7 +71,7 @@ namespace Apartify.Views.staff
 
             if (string.IsNullOrEmpty(q))
             {
-                // reset
+                
                 _requests.Clear();
                 foreach (var r in _allRequests)
                     _requests.Add(r);
@@ -81,7 +81,6 @@ namespace Apartify.Views.staff
 
             var qNorm = NormalizeForSearch(q);
 
-            // If single-character query, restrict to apartment number prefix only to avoid broad matches
             System.Collections.Generic.List<Request> filtered;
             if (qNorm.Length == 1)
             {
@@ -90,7 +89,6 @@ namespace Apartify.Views.staff
             else
             {
                 filtered = _allRequests.Where(r =>
-                    // prefer prefix match to reduce unrelated results
                     StartsWithNormalized(r.Description, qNorm)
                     || StartsWithNormalized(r.Resident?.FullName, qNorm)
                     || StartsWithNormalized(r.Apartment?.Number, qNorm)
@@ -143,7 +141,6 @@ namespace Apartify.Views.staff
             var win = new RequestDetailsStaff(req.RequestId, isEdit: true);
             win.Owner = this;
             win.ShowDialog();
-            // refresh list to reflect edits
             LoadRequests();
         }
 
