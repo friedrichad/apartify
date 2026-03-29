@@ -9,7 +9,17 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Maintenance Requests" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" />
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Maintenance Requests" FontSize="20" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                <TextBox x:Name="TxtSearch" Width="240" Margin="0,0,8,0" ToolTip="Search by resident, apartment or status" />
+                <Button x:Name="BtnSearch" Content="Search" Width="75" />
+            </StackPanel>
+        </Grid>
 
         <DataGrid x:Name="DataGridRequests" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
@@ -17,6 +27,7 @@
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*" />
                 <DataGridTextColumn Header="Apartment" Binding="{Binding Apartment.Number}" />
                 <DataGridTextColumn Header="Resident" Binding="{Binding Resident.FullName}" />
+                <DataGridTextColumn Header="Building" Binding="{Binding Apartment.Building.Name}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="120" />
                 <DataGridTextColumn Header="RequestDate" Binding="{Binding RequestDate}" Width="180" />
             </DataGrid.Columns>
@@ -35,6 +46,7 @@
             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
                 <Button x:Name="BtnRefresh" Content="Refresh" Width="80" Margin="0,0,8,0" />
                 <Button x:Name="BtnView" Content="View Details" Width="100" Margin="0,0,8,0" />
+                <Button x:Name="BtnUpdate" Content="Update" Width="80" Margin="0,0,8,0" />
                 <Button x:Name="BtnDone" Content="Mark Done" Width="100" Margin="0,0,8,0" />
                 <Button x:Name="BtnCancel" Content="Mark Canceled" Width="120" />
             </StackPanel>

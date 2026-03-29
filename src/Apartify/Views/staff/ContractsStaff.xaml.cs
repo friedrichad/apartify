@@ -10,14 +10,16 @@ namespace Apartify.Views.staff
     public partial class ContractsStaff : Window
     {
         private ObservableCollection<Contract> _contracts = new();
+        private System.Collections.Generic.List<Contract> _allContracts = new();
 
         public ContractsStaff()
         {
             InitializeComponent();
 
             BtnRefresh.Click += BtnRefresh_Click;
-            BtnCancel.Click += BtnCancel_Click; // Delete Contract
-            BtnDone.Click += BtnDone_Click; // End Contract
+            BtnSearch.Click += BtnSearch_Click;
+          
+            TxtSearch.KeyDown += TxtSearch_KeyDown;
             BtnBack.Click += BtnBack_Click;
 
             try
@@ -36,12 +38,18 @@ namespace Apartify.Views.staff
             using var ctx = new ApartifyContext();
             var list = ctx.Contracts
                 .Include(c => c.Apartment)
+                    .ThenInclude(a => a.Building)
                 .Include(c => c.Resident)
-                .OrderByDescending(c => c.StartDate)
+                // order by ContractId ascending so ID column appears 1,2,3...
+                .OrderBy(c => c.ContractId)
                 .ToList();
 
+            _allContracts = list;
             _contracts = new ObservableCollection<Contract>(list);
             DataGridContracts.ItemsSource = _contracts;
+
+            // Show placeholder when there are no contracts
+            TxtEmpty.Visibility = _contracts.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private Contract? GetSelectedContract()
@@ -54,75 +62,84 @@ namespace Apartify.Views.staff
             LoadContracts();
         }
 
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            // Delete contract
-            var contract = GetSelectedContract();
-            if (contract == null)
+            var q = (TxtSearch?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrEmpty(q))
             {
-                MessageBox.Show("Select a contract.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                _contracts.Clear();
+                foreach (var c in _allContracts)
+                    _contracts.Add(c);
+                TxtEmpty.Visibility = _contracts.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
                 return;
             }
 
-            if (MessageBox.Show("Are you sure you want to delete the selected contract?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
-                return;
+            var qNorm = NormalizeForSearch(q);
 
-            using var ctx = new ApartifyContext();
-            var entity = ctx.Contracts.Find(contract.ContractId);
-            if (entity == null)
+            System.Collections.Generic.List<Contract> filtered;
+            if (qNorm.Length == 1)
             {
-                MessageBox.Show("Contract not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                // single character: only match apartment number prefix
+                filtered = _allContracts.Where(c => StartsWithNormalized(c.Apartment?.Number, qNorm)).ToList();
+            }
+            else
+            {
+                filtered = _allContracts.Where(c =>
+                    StartsWithNormalized(c.Resident?.FullName, qNorm)
+                    || StartsWithNormalized(c.Apartment?.Number, qNorm)
+                    || StartsWithNormalized(c.Apartment?.Building?.Name, qNorm)
+                ).ToList();
             }
 
-            try
-            {
-                ctx.Contracts.Remove(entity);
-                ctx.SaveChanges();
-                LoadContracts();
-                MessageBox.Show("Contract deleted.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            _contracts.Clear();
+            foreach (var c in filtered)
+                _contracts.Add(c);
+
+            TxtEmpty.Visibility = _contracts.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void BtnDone_Click(object sender, RoutedEventArgs e)
+        private static string NormalizeForSearch(string? s)
         {
-            // End contract (set EndDate to today)
-            var contract = GetSelectedContract();
-            if (contract == null)
+            if (string.IsNullOrEmpty(s)) return string.Empty;
+            var normalized = s.Normalize(System.Text.NormalizationForm.FormD);
+            var sb = new System.Text.StringBuilder();
+            foreach (var ch in normalized)
             {
-                MessageBox.Show("Select a contract.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
+                var uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(ch);
+                if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sb.Append(ch);
             }
-
-            using var ctx = new ApartifyContext();
-            var entity = ctx.Contracts.Find(contract.ContractId);
-            if (entity == null)
-            {
-                MessageBox.Show("Contract not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            try
-            {
-                entity.EndDate = DateOnly.FromDateTime(DateTime.Today);
-                ctx.Contracts.Update(entity);
-                ctx.SaveChanges();
-                LoadContracts();
-                MessageBox.Show("Contract ended (EndDate set to today).", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            return sb.ToString().Normalize(System.Text.NormalizationForm.FormC).ToLowerInvariant();
         }
+
+        private static int IndexOfNormalized(string? field, string qNorm)
+        {
+            if (string.IsNullOrEmpty(field)) return -1;
+            var f = NormalizeForSearch(field);
+            return f.IndexOf(qNorm, StringComparison.Ordinal);
+        }
+
+        private static bool StartsWithNormalized(string? field, string qNorm)
+        {
+            if (string.IsNullOrEmpty(field)) return false;
+            var f = NormalizeForSearch(field);
+            return f.StartsWith(qNorm, StringComparison.Ordinal);
+        }
+
+
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void TxtSearch_KeyDown(object? sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                BtnSearch_Click(sender, new RoutedEventArgs());
+            }
         }
     }
 }
