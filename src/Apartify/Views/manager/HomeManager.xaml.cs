@@ -11,5 +11,11 @@ namespace Apartify.Views.manager
         {
             InitializeComponent();
         }
+
+        private void btnResident(object sender, EventArgs e)
+        {
+            ResidentManagementWindow residentManagement = new ResidentManagementWindow();
+            residentManagement.Show();
+        }
     }
 }

@@ -50,25 +50,8 @@ namespace Apartify.Views.manager
 
         private void AddCommand(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var resident = new Resident
-                {
-                    FullName = txtFullName.Text,
-                    Phone = txtPhone.Text,
-                    Email = txtEmail.Text
-                };
-
-                if (_residentBll.Create(resident))
-                {
-                    MessageBox.Show("Add success");
-                    LoadData();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            CreateResident createWindow = new CreateResident();
+            createWindow.ShowDialog();
         }
 
         private void EditCommand(object sender, RoutedEventArgs e)
@@ -97,27 +80,6 @@ namespace Apartify.Views.manager
             }
         }
 
-        private void DeleteCommand(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (SelectedResident == null) return;
-
-                if (_residentBll.Remove(SelectedResident.ResidentId))
-                {
-                    MessageBox.Show("Delete success");
-                    LoadData();
-                }
-                else
-                {
-                    MessageBox.Show("Delete failed. Resident may have contracts.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
         private void CloseCommand(object sender, RoutedEventArgs e)
         {

@@ -28,7 +28,7 @@
             <WrapPanel HorizontalAlignment="Center">
                 <Button Content="Buildings" Width="180" Height="100" Margin="10" Background="#3498DB" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
                 <Button Content="Staff" Width="180" Height="100" Margin="10" Background="#E67E22" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
-                <Button Content="Residents" Width="180" Height="100" Margin="10" Background="#27AE60" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                <Button Content="Residents" Width="180" Height="100" Margin="10" Background="#27AE60" Foreground="White" FontSize="16" FontWeight="SemiBold" Click="btnResident"/>
                 <Button Content="Reports" Width="180" Height="100" Margin="10" Background="#9B59B6" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
             </WrapPanel>
         </StackPanel>

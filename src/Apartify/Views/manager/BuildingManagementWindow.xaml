@@ -30,10 +30,6 @@
                     <Button Content="Close" Click="CloseCommand" Margin="5" Height="30"/>
                 </UniformGrid>
 
-                <Separator Margin="0,20,0,10"/>
-                <TextBlock Text="NAVIGATION" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
-                <Button Content="Apartment Management" Click="NavApartment_Click" Margin="5" Height="35" Background="#3498db" Foreground="White"/>
-                <Button Content="Resident Management" Click="NavResident_Click" Margin="5" Height="35" Background="#3498db" Foreground="White"/>
             </StackPanel>
         </Border>
 
