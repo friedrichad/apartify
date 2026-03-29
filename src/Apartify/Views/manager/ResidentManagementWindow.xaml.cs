@@ -52,6 +52,7 @@ namespace Apartify.Views.manager
         {
             CreateResident createWindow = new CreateResident();
             createWindow.ShowDialog();
+            LoadData();
         }
 
         private void EditCommand(object sender, RoutedEventArgs e)
@@ -80,6 +81,40 @@ namespace Apartify.Views.manager
             }
         }
 
+
+        private void DeleteCommand(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (SelectedResident == null) return;
+
+                if (_residentBll.Remove(SelectedResident.ResidentId))
+                {
+                    MessageBox.Show("Delete success");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Delete failed. Resident may have active contracts.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void CreateContractCommand(object sender, RoutedEventArgs e)
+        {
+            if (SelectedResident == null)
+            {
+                MessageBox.Show("Please select a resident to create a contract.");
+                return;
+            }
+
+            CreateContractWindow createContractWindow = new CreateContractWindow(SelectedResident);
+            createContractWindow.ShowDialog();
+        }
 
         private void CloseCommand(object sender, RoutedEventArgs e)
         {

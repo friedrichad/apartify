@@ -5,32 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Manager Home" Height="600" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid Background="#F4F7F6">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <!-- Header -->
-        <Border Grid.Row="0" Background="#2C3E50" Padding="20">
+        <Border Grid.Row="0" Padding="20">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Apartify" FontSize="24" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                <Separator Width="2" Margin="15,0" Background="#34495E"/>
-                <TextBlock Text="Manager Dashboard" FontSize="18" Foreground="#ECF0F1" VerticalAlignment="Center"/>
+                <TextBlock Text="Apartify" FontSize="24" VerticalAlignment="Center"/>
+                <Separator Width="2" Margin="15,0"/>
+                <TextBlock Text="Manager Dashboard" FontSize="18" VerticalAlignment="Center"/>
             </StackPanel>
         </Border>
         
         <!-- Main Content -->
         <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="Welcome back, Manager!" FontSize="32" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10" HorizontalAlignment="Center"/>
-            <TextBlock Text="This is your central control hub." FontSize="18" Foreground="#7F8C8D" Margin="0,0,0,30" HorizontalAlignment="Center"/>
+            <TextBlock Text="Welcome back, Manager!" FontSize="32" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+            <TextBlock Text="This is your central control hub." FontSize="18" Margin="0,0,0,30" HorizontalAlignment="Center"/>
             
             <WrapPanel HorizontalAlignment="Center">
-                <Button Content="Buildings" Width="180" Height="100" Margin="10" Background="#3498DB" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
-                <Button Content="Staff" Width="180" Height="100" Margin="10" Background="#E67E22" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
-                <Button Content="Residents" Width="180" Height="100" Margin="10" Background="#27AE60" Foreground="White" FontSize="16" FontWeight="SemiBold" Click="btnResident"/>
-                <Button Content="Reports" Width="180" Height="100" Margin="10" Background="#9B59B6" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                <Button Content="Buildings" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#3498DB" Foreground="White" Click="btnBuilding"/>
+                <Button Content="Apartments" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#E67E22" Foreground="White" Click="btnApartment"/>
+                <Button Content="Residents" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#27AE60" Foreground="White" Click="btnResident"/>
+                <Button Content="Requests" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#9B59B6" Foreground="White" Click="btnRequest"/>
+                <Button Content="Contracts" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#F1C40F" Foreground="White" Click="btnContract"/>
             </WrapPanel>
+            
+            <Button Content="Close" Width="150" Height="40" Margin="0,30,0,0" FontSize="16" FontWeight="Bold" Background="#E74C3C" Foreground="White" Click="btnClose"/>
         </StackPanel>
     </Grid>
 </Window>
