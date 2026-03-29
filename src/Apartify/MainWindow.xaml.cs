@@ -63,7 +63,7 @@ namespace Apartify
                     }
                     else if (user.Role == "3" || user.Role == "Resident") // Resident (keeping "Resident" for backward compatibility if needed)
                     {
-                        HomeResident residentHome = new HomeResident();
+                        HomeResident residentHome = new HomeResident(user);
                         residentHome.Show();
                     }
                     else
