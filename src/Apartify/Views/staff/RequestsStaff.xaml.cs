@@ -18,6 +18,7 @@ namespace Apartify.Views.staff
             BtnView.Click += BtnView_Click;
             BtnDone.Click += BtnDone_Click;
             BtnCancel.Click += BtnCancel_Click;
+            BtnBack.Click += BtnBack_Click;
 
             try
             {
@@ -106,6 +107,11 @@ namespace Apartify.Views.staff
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

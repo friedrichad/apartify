@@ -21,5 +21,5 @@ public partial class Apartment
 
     public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 
-    public virtual ICollection<ServiceFee> ServiceFees { get; set; } = new List<ServiceFee>();
+    // ServiceFees removed to match current database schema (no ServiceFee table)
 }

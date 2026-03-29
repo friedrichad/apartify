@@ -22,8 +22,6 @@ public partial class ApartifyContext : DbContext
     public virtual DbSet<Building> Buildings { get; set; }
 
     public virtual DbSet<Contract> Contracts { get; set; }
-    public virtual DbSet<ServiceFee> ServiceFees { get; set; }
-
     public virtual DbSet<Request> Requests { get; set; }
 
     public virtual DbSet<Resident> Residents { get; set; }
@@ -109,22 +107,7 @@ public partial class ApartifyContext : DbContext
                 .HasConstraintName("FK__Request__Residen__46E78A0C");
         });
 
-        modelBuilder.Entity<ServiceFee>(entity =>
-        {
-            entity.HasKey(e => e.FeeId).HasName("PK__ServiceF__B387B229A64AAEBB");
-
-            entity.ToTable("ServiceFee");
-
-            entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Month)
-                .HasMaxLength(7)
-                .IsUnicode(false);
-            entity.Property(e => e.Paid).HasDefaultValue(false);
-
-            entity.HasOne(d => d.Apartment).WithMany(p => p.ServiceFees)
-                .HasForeignKey(d => d.ApartmentId)
-                .HasConstraintName("FK__ServiceFe__Apart__6B24EA82");
-        });
+        // ServiceFee table removed from model to match current database schema
 
         modelBuilder.Entity<Resident>(entity =>
         {

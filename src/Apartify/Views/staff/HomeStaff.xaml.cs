@@ -1,4 +1,5 @@
 using System.Windows;
+using Apartify;
 
 namespace Apartify.Views.staff
 {
@@ -34,7 +35,7 @@ namespace Apartify.Views.staff
         {
             try
             {
-                var win = new PaymentsStaff();
+                var win = new ContractsStaff();
                 win.Owner = this;
                 win.ShowDialog();
             }
@@ -46,7 +47,17 @@ namespace Apartify.Views.staff
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            // Close the staff window to logout
+            // Open the login window (MainWindow) and close the staff window so user returns to login page
+            try
+            {
+                var login = new MainWindow();
+                login.Show();
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Cannot open Login window:\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             this.Close();
         }
     }

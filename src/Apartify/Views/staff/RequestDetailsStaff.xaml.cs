@@ -42,5 +42,10 @@ namespace Apartify.Views.staff
             TxtStatus.Text = r.Status ?? string.Empty;
             TxtDate.Text = r.RequestDate.HasValue ? r.RequestDate.Value.ToString("g") : string.Empty;
         }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

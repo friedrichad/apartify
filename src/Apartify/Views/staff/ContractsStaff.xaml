@@ -1,7 +1,7 @@
-<Window x:Class="Apartify.Views.staff.RequestsStaff"
+<Window x:Class="Apartify.Views.staff.ContractsStaff"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Requests" Height="550" Width="900" WindowStartupLocation="CenterOwner">
+        Title="Payments" Height="500" Width="800" WindowStartupLocation="CenterOwner">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -9,16 +9,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Maintenance Requests" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" />
+    <TextBlock Text="Contracts" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" />
 
-        <DataGrid x:Name="DataGridRequests" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+        <DataGrid x:Name="DataGridContracts" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="RequestId" Binding="{Binding RequestId}" Width="80" />
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*" />
+                <DataGridTextColumn Header="ContractId" Binding="{Binding ContractId}" Width="80" />
                 <DataGridTextColumn Header="Apartment" Binding="{Binding Apartment.Number}" />
                 <DataGridTextColumn Header="Resident" Binding="{Binding Resident.FullName}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="120" />
-                <DataGridTextColumn Header="RequestDate" Binding="{Binding RequestDate}" Width="180" />
+                <DataGridTextColumn Header="StartDate" Binding="{Binding StartDate}" />
+                <DataGridTextColumn Header="EndDate" Binding="{Binding EndDate}" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -34,9 +33,8 @@
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
                 <Button x:Name="BtnRefresh" Content="Refresh" Width="80" Margin="0,0,8,0" />
-                <Button x:Name="BtnView" Content="View Details" Width="100" Margin="0,0,8,0" />
-                <Button x:Name="BtnDone" Content="Mark Done" Width="100" Margin="0,0,8,0" />
-                <Button x:Name="BtnCancel" Content="Mark Canceled" Width="120" />
+                <Button x:Name="BtnCancel" Content="Delete Contract" Width="120" Margin="0,0,8,0" />
+                <Button x:Name="BtnDone" Content="End Contract" Width="120" />
             </StackPanel>
         </Grid>
     </Grid>

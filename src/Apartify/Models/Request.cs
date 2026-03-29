@@ -11,7 +11,7 @@ public partial class Request
 
     public int? ApartmentId { get; set; }
 
-    public int? StaffId { get; set; }
+
 
     public string? Description { get; set; }
 
@@ -23,5 +23,4 @@ public partial class Request
 
     public virtual Resident? Resident { get; set; }
 
-    public virtual Staff? Staff { get; set; }
 }
