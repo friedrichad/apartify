@@ -46,21 +46,17 @@ namespace Apartify
 
             try
             {
-                // Status logic: 0 = Pending Approval
-                int status = 0;
-
                 // Create UserAccount
                 UserAccount newUser = new UserAccount
                 {
                     Username = username,
                     Password = password,
-                    Status = status,
                     Role = role
                 };
 
                 _userAccountBll.Create(newUser);
 
-                MessageBox.Show("Account registered successfully! Waiting for manager approval.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Account registered successfully!", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
             }
             catch (Exception ex)

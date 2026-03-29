@@ -33,26 +33,55 @@ namespace Apartify.Views.manager
             SelectedRequest = dgRequest.SelectedItem as Request;
         }
 
-        private void ApproveCommand(object sender, RoutedEventArgs e)
+        private void DoneCommand(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (SelectedRequest == null)
                 {
-                    MessageBox.Show("Please select a request to approve.");
+                    MessageBox.Show("Please select a request.");
                     return;
                 }
 
-                SelectedRequest.Status = "Approved";
+                SelectedRequest.Status = "Done";
+                SelectedRequest.RequestDate = DateTime.Now;
                 
                 if (_requestBll.Edit(SelectedRequest))
                 {
-                    MessageBox.Show("Request approved successfully.");
+                    MessageBox.Show("Request marked as done successfully.");
                     LoadData();
                 }
                 else
                 {
-                    MessageBox.Show("Failed to approve request.");
+                    MessageBox.Show("Failed to update request.");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void CancelRequestCommand(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (SelectedRequest == null)
+                {
+                    MessageBox.Show("Please select a request.");
+                    return;
+                }
+
+                SelectedRequest.Status = "Cancel";
+                
+                if (_requestBll.Edit(SelectedRequest))
+                {
+                    MessageBox.Show("Request canceled successfully.");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to cancel request.");
                 }
             }
             catch (System.Exception ex)

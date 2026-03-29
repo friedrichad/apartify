@@ -31,6 +31,7 @@
                 <Button Content="Residents" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#27AE60" Foreground="White" Click="btnResident"/>
                 <Button Content="Requests" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#9B59B6" Foreground="White" Click="btnRequest"/>
                 <Button Content="Contracts" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#F1C40F" Foreground="White" Click="btnContract"/>
+                <Button Content="User Accounts" Width="180" Height="100" Margin="10" FontSize="16" FontWeight="SemiBold" Background="#8E44AD" Foreground="White" Click="btnUserAccounts"/>
             </WrapPanel>
             
             <Button Content="Close" Width="150" Height="40" Margin="0,30,0,0" FontSize="16" FontWeight="Bold" Background="#E74C3C" Foreground="White" Click="btnClose"/>

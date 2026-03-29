@@ -28,7 +28,8 @@
         </DataGrid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
-            <Button Content="Approve" Click="ApproveCommand" Width="100" Height="30" Margin="0,0,10,0" Background="#2ECC71" Foreground="White" FontWeight="Bold"/>
+            <Button Content="Done" Click="DoneCommand" Width="100" Height="30" Margin="0,0,10,0" Background="#2ECC71" Foreground="White" FontWeight="Bold"/>
+            <Button Content="Cancel" Click="CancelRequestCommand" Width="100" Height="30" Margin="0,0,10,0" Background="#E74C3C" Foreground="White" FontWeight="Bold"/>
             <Button Content="Close" Click="CloseCommand" Width="100" Height="30" Background="#95A5A6" Foreground="White" FontWeight="Bold"/>
         </StackPanel>
 

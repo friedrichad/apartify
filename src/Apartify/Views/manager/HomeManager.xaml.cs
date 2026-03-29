@@ -42,6 +42,12 @@ namespace Apartify.Views.manager
             contractManagement.Show();
         }
 
+        private void btnUserAccounts(object sender, RoutedEventArgs e)
+        {
+            UserAccountManagementWindow userAccountManagement = new UserAccountManagementWindow();
+            userAccountManagement.Show();
+        }
+
         private void btnClose(object sender, RoutedEventArgs e)
         {
             this.Close();

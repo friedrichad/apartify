@@ -88,14 +88,26 @@ namespace Apartify.Views.manager
             {
                 if (SelectedResident == null) return;
 
-                if (_residentBll.Remove(SelectedResident.ResidentId))
+                // Soft delete: Do not remove from table, just update UserAccount Status to 1 (Deleted/Blocked)
+                if (SelectedResident.UserId.HasValue)
                 {
-                    MessageBox.Show("Delete success");
-                    LoadData();
+                    var context = new ApartifyContext();
+                    var dal = new UserAccountDal(context);
+                    var bll = new UserAccountBll(dal);
+                    
+                    if (bll.ChangeStatus(SelectedResident.UserId.Value, 1))
+                    {
+                        MessageBox.Show("Delete (soft delete) success. Status set to 1.");
+                        LoadData();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update status for deletion.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Delete failed. Resident may have active contracts.");
+                    MessageBox.Show("This resident has no associated user account to soft delete.");
                 }
             }
             catch (Exception ex)
