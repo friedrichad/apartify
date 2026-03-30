@@ -1,6 +1,5 @@
-﻿using Apartify.DAL;
-using Apartify.Models;
-using System.Linq;
+﻿using Apartify.Models;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace Apartify.Views.resident
@@ -45,22 +44,52 @@ namespace Apartify.Views.resident
         {
             if (!isEditing) return;
 
+            // 🔥 VALIDATE
+
+            if (string.IsNullOrWhiteSpace(tbFullName.Text))
+            {
+                MessageBox.Show("Full name is required");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(tbEmail.Text))
+            {
+                MessageBox.Show("Email is required");
+                return;
+            }
+
+            if (!IsValidEmail(tbEmail.Text))
+            {
+                MessageBox.Show("Invalid email format");
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(tbPhone.Text) && !tbPhone.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Phone must contain only numbers");
+                return;
+            }
+
+            // 🔥 SAVE
             var context = new ApartifyContext();
 
             var resident = context.Residents
                 .FirstOrDefault(r => r.ResidentId == _resident.ResidentId);
 
-            if (resident == null) return;
+            if (resident == null)
+            {
+                MessageBox.Show("Resident not found");
+                return;
+            }
 
-            resident.FullName = tbFullName.Text;
-            resident.Phone = tbPhone.Text;
-            resident.Email = tbEmail.Text;
+            resident.FullName = tbFullName.Text.Trim();
+            resident.Phone = tbPhone.Text.Trim();
+            resident.Email = tbEmail.Text.Trim();
 
             context.SaveChanges();
 
             MessageBox.Show("Profile updated successfully!");
 
-            // 🔥 khóa lại sau khi save
             tbFullName.IsReadOnly = true;
             tbPhone.IsReadOnly = true;
             tbEmail.IsReadOnly = true;
@@ -80,6 +109,12 @@ namespace Apartify.Views.resident
 
             btnEdit.Visibility = Visibility.Collapsed;
             btnSave.Visibility = Visibility.Visible;
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, pattern);
         }
     }
 }

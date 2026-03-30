@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Apartify.Views.resident.RequestWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Maintenance Requests"
+        Title="Service Requests"
         Height="450" Width="700"
         WindowStartupLocation="CenterOwner">
 

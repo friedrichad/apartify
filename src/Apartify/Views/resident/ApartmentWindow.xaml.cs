@@ -38,25 +38,25 @@ namespace Apartify.Views.resident
                     return;
                 }
 
-                var apartment = context.Apartments
-                   .Where(a => a.ApartmentId == contract.ApartmentId)
-                    .Select(a => new
-       {
-                    a.ApartmentId,
-                    Building = a.Building != null ? a.Building.Name : "N/A",
-                    Number = a.Number ?? "N/A",
-                    Floor = a.Floor ?? 0,
-                   Area = a.Area ?? 0
-                })
-       .FirstOrDefault();
-
-                if (apartment == null)
+                var apartments = context.Contracts
+            .Where(c => c.ResidentId == resident.ResidentId)
+            .Select(c => c.Apartment)
+            .Select(a => new
+            {
+                a.ApartmentId,
+                Building = a.Building != null ? a.Building.Name : "N/A",
+                Number = a.Number ?? "N/A",
+                Floor = a.Floor ?? 0,
+                Area = a.Area ?? 0
+            })
+            .ToList();
+                if (apartments.Count == 0)
                 {
-                    MessageBox.Show("Apartment details not found");
+                    MessageBox.Show("No apartment assigned");
                     return;
                 }
 
-                lvApartment.ItemsSource = new[] { apartment };
+                lvApartment.ItemsSource = apartments;
             }
         }
 
