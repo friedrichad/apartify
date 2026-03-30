@@ -51,7 +51,8 @@ namespace Apartify
                 {
                     Username = username,
                     Password = password,
-                    Role = role
+                    Role = role,
+                    Status = 0
                 };
 
                 _userAccountBll.Create(newUser);
