@@ -43,6 +43,19 @@ namespace Apartify.Views.resident
                 .ToList();
 
             lvRequests.ItemsSource = requests;
+
+            // Load apartments for this resident into combo box
+            var apartments = context.Contracts
+                .Where(c => c.ResidentId == resident.ResidentId)
+                .Select(c => c.Apartment)
+                .Where(a => a != null)
+                .Select(a => new { a.ApartmentId, Display = (a.Number ?? "N/A") + " - " + (a.Building != null ? a.Building.Name : "N/A") })
+                .ToList();
+
+            cbApartments.ItemsSource = apartments;
+            cbApartments.DisplayMemberPath = "Display";
+            cbApartments.SelectedValuePath = "ApartmentId";
+            if (apartments.Count > 0) cbApartments.SelectedIndex = 0;
         }
 
         private void CreateRequest_Click(object sender, RoutedEventArgs e)
@@ -64,19 +77,18 @@ namespace Apartify.Views.resident
                 return;
             }
 
-            var contract = context.Contracts
-                .FirstOrDefault(c => c.ResidentId == resident.ResidentId);
-
-            if (contract == null)
+            if (cbApartments.SelectedItem == null)
             {
-                MessageBox.Show("No apartment assigned.");
+                MessageBox.Show("Please select an apartment.");
                 return;
             }
+
+            var apartmentId = (int)cbApartments.SelectedValue;
 
             var request = new Request
             {
                 ResidentId = resident.ResidentId,
-                ApartmentId = contract.ApartmentId,
+                ApartmentId = apartmentId,
                 Description = tbDescription.Text.Trim(),
                 RequestDate = DateTime.Now,
                 Status = "Pending"

@@ -15,8 +15,17 @@
 
         <!-- CREATE -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <ComboBox x:Name="cbApartments"
+                      Width="220"
+                      Height="30"
+                      Margin="0,0,10,0"
+                      VerticalContentAlignment="Center"
+                      HorizontalAlignment="Left"
+                      IsEditable="False"
+                      />
+
             <TextBox x:Name="tbDescription"
-                     Width="400"
+                     Width="300"
                      Height="30"
                      Margin="0,0,10,0"
                      VerticalContentAlignment="Center"/>
