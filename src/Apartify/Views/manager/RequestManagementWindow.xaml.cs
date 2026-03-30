@@ -72,7 +72,7 @@ namespace Apartify.Views.manager
                     return;
                 }
 
-                SelectedRequest.Status = "Cancel";
+                SelectedRequest.Status = "Canceled";
                 
                 if (_requestBll.Edit(SelectedRequest))
                 {
