@@ -26,9 +26,10 @@
             <TextBlock Text="Everything about your apartment in one place." FontSize="18" Foreground="#7F8C8D" Margin="0,0,0,30" HorizontalAlignment="Center"/>
             
             <WrapPanel HorizontalAlignment="Center">
-                <Button Content="My Account" Width="200" Height="100" Margin="10" Background="#3498DB" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
-                <Button Content="Maintenance" Width="200" Height="100" Margin="10" Background="#E67E22" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
-                <Button Content="Bills" Width="200" Height="100" Margin="10" Background="#27AE60" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                <Button Content="My Profile" Width="180" Height="80" Margin="8" Background="#2980B9" Foreground="White" Click="Profile_Click"/>
+                <Button Content="Apartment Info" Width="180" Height="80" Margin="8" Background="#8E44AD" Foreground="White" FontSize="14" FontWeight="SemiBold" Click="ApartmentInfo_Click"/>
+                <Button Content="Contract" Width="180" Height="80" Margin="8" Background="#2C3E50" Foreground="White" FontSize="14" FontWeight="SemiBold" Click="Contract_Click"/>
+                <Button Content="Service Request" Width="180" Height="80" Margin="8" Background="#E67E22" Foreground="White" FontSize="14" FontWeight="SemiBold" Click="Maintenance_Click"/>
             </WrapPanel>
         </StackPanel>
     </Grid>
